@@ -1,0 +1,350 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* General Body Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #ffffff;
+    color: #1d1d1f;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* Header */
+header {
+    background: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1rem 0;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 0.5rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #1d1d1f;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    transition: color 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+nav ul li a:hover {
+    color: #0071e3;
+}
+
+nav ul li i {
+    margin-bottom: 0.5rem;
+}
+
+/* Hero Section */
+.hero-section {
+    background: url('hero-image.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 4rem 1rem;
+}
+
+.hero-content .title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #000000;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+}
+
+.hero-content .subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content button {
+    background-color: #0071e3;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+}
+
+.hero-content button:hover {
+    background-color: #005bb5;
+}
+
+/* About Section */
+.about-section {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: #f5f5f7;
+    color: #000000;
+}
+
+.about-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.about-section p {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Features Section */
+.features-section {
+    background-color: #ffffff;
+    padding: 3rem 1rem;
+    text-align: center;
+}
+
+.features-section h2 {
+    font-size: 2rem;
+    color: #1d1d1f;
+    margin-bottom: 2rem;
+}
+
+.features-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.feature {
+    background: #f5f5f7;
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    max-width: 250px;
+    text-align: center;
+}
+
+.feature h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #1d1d1f;
+}
+
+.feature p {
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: #f5f5f7;
+    color: #000000;
+}
+
+.recommendations-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.recommendations-section p {
+    max-width: 600px;
+    margin: 0 auto 2rem auto; /* Add bottom margin to create space */
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.recommendations-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem; /* Add top margin to create space */
+}
+
+.recommendation {
+    background: #f5f5f7;
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    max-width: 250px;
+    text-align: center;
+}
+
+.recommendation h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #1d1d1f;
+}
+
+.recommendation p {
+    font-size: 1rem;
+    color: #333;
+}
+
+.recommendation-image {
+    width: 100px;
+    height: 100px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    margin: 0 auto 1rem auto;
+}
+
+/* FAQ Section */
+.faq-section {
+    background-color: #f5f5f7;
+    padding: 3rem 1rem;
+    text-align: center;
+}
+
+.faq-section h2 {
+    font-size: 2rem;
+    color: #1d1d1f;
+    margin-bottom: 2rem;
+}
+
+.faq-item {
+    margin-bottom: 1rem;
+}
+
+.faq-question {
+    background-color: #0071e3;
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+}
+
+.faq-question:hover {
+    background-color: #005bb5;
+}
+
+.faq-answer {
+    display: none;
+    background-color: #ffffff;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+}
+
+.faq-question i {
+    margin-left: 10px;
+}
+
+/* Contact Section */
+.contact-section {
+    background-color: #ffffff;
+    padding: 3rem 1rem;
+    text-align: center;
+}
+
+.contact-section h2 {
+    font-size: 2rem;
+    color: #1d1d1f;
+    margin-bottom: 1rem;
+}
+
+.contact-section p {
+    font-size: 1rem;
+    color: #333;
+}
+
+.contact-section a {
+    color: #0071e3;
+    text-decoration: none;
+}
+
+.contact-section a:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+footer {
+    background-color: #f5f5f7;
+    padding: 2rem 1rem;
+    text-align: center;
+    border-top: 1px solid #e0e0e0;
+}
+
+footer p {
+    margin: 0;
+    color: #6e6e73;
+}
+
+/* Diagnosis Section */
+.diagnosis-section {
+    background-color: #ffffff;
+    padding: 3rem 1rem;
+    text-align: center;
+}
+
+.diagnosis-section h2 {
+    font-size: 2rem;
+    color: #1d1d1f;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.diagnosis-section .container {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.diagnosis-section label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.diagnosis-section input,
+.diagnosis-section select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.diagnosis-section button {
+    background-color: #0071e3;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    display: block;
+    width: 100%;
+}
+
+.diagnosis-section button:hover {
+    background-color: #005bb5;
+}
