@@ -1,108 +1,486 @@
 document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const symptoms = urlParams.get('symptoms').toLowerCase().split(',').map(s => s.trim());
+    const age = parseInt(urlParams.get('age'), 10);
+    const allergies = urlParams.get('allergies').toLowerCase().split(',').map(a => a.trim());
 
     const conditions = [
         {
-            name: "the Influenza, also known as the Flu. The Flu is a contagious respiratory illness caused by flu viruses. It typically causes symptoms like fever, cough, sore throat, body aches, fatigue, and congestion. The flu spreads through droplets from coughs or sneezes, and it can lead to serious complications, especially in young children, the elderly, and those with weakened immune systems. Vaccination is the primary method of prevention. The primary medications for the flu are antiviral drugs, which can help reduce the severity and duration of symptoms if taken early. These include: Oseltamivir (Tamiflu) which is taken orally, Zanamivir (Relenza) which you inhale, Baloxavir marboxil (Xofluza) which is taken orally, typically in a single dose, and Peramivir (Rapivab) which is administered intravenously. These antivirals work best when started within 48 hours of symptom onset. For symptom relief, over-the-counter medications like acetaminophen or ibuprofen can help manage fever and pain. We always reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['fever', 'chills', 'cough', 'sore throat', 'runny/stuffy nose', 'muscle aches', 'fatigue'],
+            name: "Influenza (Flu)",
+            info: "The Flu is a contagious respiratory illness caused by flu viruses. It typically causes symptoms like fever, cough, sore throat, body aches, fatigue, and congestion. The flu spreads through droplets from coughs or sneezes, and it can lead to serious complications, especially in young children, the elderly, and those with weakened immune systems. Vaccination is the primary method of prevention.",
+            symptoms: ['fever', 'chills', 'muscle aches'],
+            medications: [
+                { name: "Oseltamivir (Tamiflu)", dosage: "75 mg twice daily for 5 days", ageRange: [13, 100], allergies: [] },
+                { name: "Zanamivir (Relenza)", dosage: "10 mg (two inhalations) twice daily for 5 days. Please avoid taking this medication if a milk allergy is present.", ageRange: [7, 100], allergies: ["milk"] },
+                { name: "Baloxavir marboxil (Xofluza)", dosage: "40 mg single dose for 40-80 kg, 80 mg single dose for >80 kg", ageRange: [12, 100], allergies: [] },
+                { name: "Peramivir (Rapivab)", dosage: "600 mg IV single dose", ageRange: [18, 100], allergies: [] }
+            ],
+            recommendations: "For symptom relief, over-the-counter medications like acetaminophen or ibuprofen can help manage fever and pain. Rest, stay hydrated, and avoid close contact with others to prevent spreading the virus.",
             weight: 0
         },
         {
-            name: "the Common Cold. The Common Cold is a viral infection, typically caused by rhinoviruses, affecting the upper respiratory system. It spreads easily through droplets from coughing or sneezing. Symptoms often include a runny or stuffy nose, sore throat, cough, mild headache, sneezing, and sometimes a low-grade fever. Cold symptoms usually last about 7 to 10 days, though they can occasionally linger longer, especially in those with weakened immune systems. Treatment for the common cold focuses on symptom relief, such as rest, hydration, and over-the-counter medications like decongestants, antihistamines, and pain relievers. Antibiotics are not effective against cold viruses. We always reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['runny/stuffy nose', 'sore throat', 'cough', 'sneezing', 'fatigue', 'nausea', 'vomiting', 'diarrhea'],
+            name: "Common Cold",
+            info: "The Common Cold is a viral infection, typically caused by rhinoviruses, affecting the upper respiratory system. It spreads easily through droplets from coughing or sneezing. Symptoms often include a runny or stuffy nose, sore throat, cough, mild headache, sneezing, and sometimes a low-grade fever. Cold symptoms usually last about 7 to 10 days, though they can occasionally linger longer, especially in those with weakened immune systems.",
+            symptoms: ['runny nose', 'sneezing', 'mild headache'],
+            medications: [
+                { name: "Decongestants", dosage: "As per package instructions", ageRange: [12, 100], allergies: [] },
+                { name: "Antihistamines", dosage: "As per package instructions", ageRange: [12, 100], allergies: [] },
+                { name: "Pain relievers", dosage: "As per package instructions", ageRange: [12, 100], allergies: [] }
+            ],
+            recommendations: "Rest, stay hydrated, and use over-the-counter medications like decongestants, antihistamines, and pain relievers to manage symptoms. Avoid close contact with others to prevent spreading the virus.",
             weight: 0
         },
         {
-            name: "Norovirus, which is often referred to as the stomach flu, is a highly contagious viral infection that causes gastroenteritis, inflammation of the stomach and intestines. It spreads through contaminated food, water, surfaces, or close contact with infected individuals. Symptoms include nausea, vomiting, diarrhea, stomach cramps, and sometimes low-grade fever or headache. Symptoms usually last 1 to 3 days but can be severe, especially in young children, the elderly, and those with weakened immune systems. There is no specific antiviral treatment for norovirus, so management focuses on staying hydrated to prevent dehydration, which is a common complication. Oral rehydration solutions or clear fluids are recommended, while avoiding solid foods until vomiting and diarrhea subside. Resting and practicing good hygiene, such as frequent hand washing and disinfecting surfaces, can help prevent the spread of the virus. Most people recover without complications within a few days, but we always reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['nausea', 'vomiting', 'diarrhea', 'stomach cramps', 'fever'],
+            name: "Norovirus (Stomach Flu)",
+            info: "Norovirus is a highly contagious viral infection that causes gastroenteritis, inflammation of the stomach and intestines. It spreads through contaminated food, water, surfaces, or close contact with infected individuals. Symptoms include nausea, vomiting, diarrhea, stomach cramps, and sometimes low-grade fever or headache. Symptoms usually last 1 to 3 days but can be severe, especially in young children, the elderly, and those with weakened immune systems.",
+            symptoms: ['nausea', 'vomiting', 'diarrhea'],
+            medications: [
+                { name: "Oral rehydration solutions", dosage: "As needed", ageRange: [0, 100], allergies: [] },
+                { name: "Clear fluids", dosage: "As needed", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Stay hydrated to prevent dehydration. Oral rehydration solutions or clear fluids are recommended. Avoid solid foods until vomiting and diarrhea subside. Rest and practice good hygiene, such as frequent hand washing and disinfecting surfaces.",
             weight: 0
         },
         {
-            name: "Strep throat, which is a bacterial infection caused by *Streptococcus* bacteria, primarily affecting the throat and tonsils. It spreads through respiratory droplets from coughing or sneezing. Symptoms include a severe sore throat, difficulty swallowing, fever, swollen lymph nodes, and red or white patches on the tonsils. Unlike viral throat infections, strep throat can lead to more serious complications if left untreated, such as rheumatic fever or kidney inflammation. Treatment for strep throat typically involves a course of antibiotics, such as penicillin or amoxicillin (do not take if allergic), to kill the bacteria and reduce the risk of complications. Over-the-counter pain relievers can help manage fever and sore throat discomfort. Resting, staying hydrated, and gargling with warm salt water can also help alleviate symptoms. It's important to finish the entire course of antibiotics to ensure full recovery and prevent the spread of infection. We always reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['sore throat', 'fever', 'swollen lymph nodes', 'headache', 'nausea'],
+            name: "Strep Throat",
+            info: "Strep throat is a bacterial infection caused by Group A Streptococcus bacteria. It causes a sore, scratchy throat and can lead to complications if untreated. Symptoms include sudden severe sore throat, pain when swallowing, red and swollen tonsils, and sometimes fever.",
+            symptoms: ['severe sore throat', 'pain when swallowing', 'red swollen tonsils'],
+            medications: [
+                { name: "Penicillin", dosage: "250 mg four times daily for 10 days. Please avoid taking this medication if a Penicillin allergy is present.", ageRange: [0, 100], allergies: ["penicillin"] },
+                { name: "Amoxicillin", dosage: "500 mg three times daily for 10 days", ageRange: [0, 100], allergies: [] },
+                { name: "Cephalexin", dosage: "500 mg twice daily for 10 days. Please avoid taking this medication if a Cephalosporins allergy is present.", ageRange: [0, 100], allergies: ["cephalosporins"] }
+            ],
+            recommendations: "Take prescribed antibiotics as directed. Rest, stay hydrated, and use over-the-counter pain relievers to manage symptoms. Avoid close contact with others to prevent spreading the infection.",
             weight: 0
         },
         {
-            name: "Covid-19, which is a viral respiratory illness caused by the SARS-CoV-2 virus. It spreads primarily through respiratory droplets when an infected person coughs, sneezes, or talks. Symptoms range from mild to severe and may include fever, cough, shortness of breath, fatigue, sore throat, loss of taste or smell, and body aches. In more severe cases, it can lead to pneumonia, acute respiratory distress syndrome (ARDS), and even death, especially in older adults or those with underlying health conditions. Treatment for COVID-19 depends on the severity of the illness. For mild cases, rest, hydration, and over-the-counter medications for symptom relief may be sufficient. Antiviral medications, such as Paxlovid, may be prescribed for high-risk individuals to reduce the severity of symptoms. Hospitalization may be required for severe cases, including the use of oxygen or mechanical ventilation. Vaccination is the best preventive measure, along with wearing masks and practicing good hygiene to reduce transmission. Following public health guidelines, like isolation during illness, is crucial to preventing the spread of the virus. We highly reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['fever', 'cough', 'shortness of breath', 'fatigue', 'loss of taste or smell', 'sore throat', 'muscle aches'],
+            name: "Chickenpox",
+            info: "Chickenpox is a highly contagious viral infection caused by the varicella-zoster virus. It causes an itchy rash with red spots and blisters all over the body. Other symptoms include fever, tiredness, and loss of appetite.",
+            symptoms: ['itchy rash', 'red spots', 'blisters'],
+            medications: [
+                { name: "Acyclovir", dosage: "800 mg five times daily for 5 days", ageRange: [2, 100], allergies: [] },
+                { name: "Valacyclovir", dosage: "1000 mg three times daily for 7 days", ageRange: [12, 100], allergies: [] }
+            ],
+            recommendations: "Rest, stay hydrated, and use over-the-counter antihistamines to relieve itching. Avoid scratching the rash to prevent infection. Vaccination is the primary method of prevention.",
             weight: 0
         },
         {
-            name: "Allergic rhinitis, commonly known as hay fever, is an allergic reaction that affects the nasal passages, typically triggered by airborne allergens like pollen, dust mites, mold, or pet dander. Symptoms include sneezing, runny or stuffy nose, itchy or watery eyes, and postnasal drip. It can occur seasonally (due to pollen) or year-round (due to indoor allergens). Treatment often involves antihistamines, nasal corticosteroids, decongestants, and leukotriene inhibitors to manage symptoms. Allergy shots (immunotherapy) may be recommended for long-term relief. Avoiding allergens, such as staying indoors during high pollen seasons or using air purifiers, can also help reduce symptoms. Keeping windows closed, washing bedding frequently, and using saline nasal sprays can provide additional relief. We reccomend visiting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['sneezing', 'runny/stuffy nose', 'itchy eyes', 'watery eyes', 'cough'],
+            name: "Measles",
+            info: "Measles is a highly contagious viral infection that causes a red rash, fever, cough, runny nose, and inflamed eyes. It spreads through respiratory droplets from coughs or sneezes. Measles can lead to serious complications, especially in young children and those with weakened immune systems.",
+            symptoms: ['red rash', 'fever', 'cough'],
+            medications: [
+                { name: "Vitamin A", dosage: "200,000 IU once daily for 2 days", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Rest, stay hydrated, and use over-the-counter medications to manage fever and pain. Vaccination is the primary method of prevention.",
             weight: 0
         },
         {
-            name: "A migraine, which is a neurological condition characterized by intense, recurring headaches, often accompanied by nausea, vomiting, and sensitivity to light and sound. Migraines can last anywhere from a few hours to several days and may be triggered by factors such as stress, certain foods, hormonal changes, or environmental factors. Some individuals experience an aura before the headache, which can include visual disturbances like flashing lights or blind spots. Treatment for migraines typically involves medications for pain relief, such as triptans, NSAIDs, or acetaminophen. Preventive treatments, including beta-blockers, antidepressants, or anticonvulsants, may be prescribed for frequent migraines. Lifestyle changes, such as maintaining a consistent sleep schedule, managing stress, staying hydrated, and avoiding known triggers, can also help reduce the frequency and severity of migraines. We reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['headache', 'nausea', 'vomiting', 'sensitivity to light', 'sensitivity to sound'],
+            name: "Mumps",
+            info: "Mumps is a viral infection that primarily affects the salivary glands, causing swelling and pain. Other symptoms include fever, headache, muscle aches, and fatigue. Mumps spreads through respiratory droplets from coughs or sneezes.",
+            symptoms: ['swollen salivary glands', 'painful chewing', 'fever'],
+            medications: [
+                { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Rest, stay hydrated, and use over-the-counter pain relievers to manage symptoms. Vaccination is the primary method of prevention.",
             weight: 0
         },
         {
-            name: "Bronchitis, which is an inflammation of the bronchial tubes, which carry air to the lungs. It can be acute or chronic. Acute bronchitis is typically caused by viral infections, like the common cold or flu, and is characterized by coughing, mucus production, wheezing, shortness of breath, and chest discomfort. Chronic bronchitis, often linked to smoking or long-term exposure to irritants, involves persistent coughing and mucus production lasting for at least three months a year over two consecutive years. Treatment for acute bronchitis focuses on relieving symptoms, including rest, staying hydrated, using over-the-counter cough medicine, and taking pain relievers for fever or discomfort. In cases where bacterial infection is suspected, antibiotics may be prescribed. Chronic bronchitis is managed by quitting smoking, using inhalers or steroids to reduce inflammation, and avoiding lung irritants. In some cases, pulmonary rehabilitation may be recommended. We reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['cough', 'mucus production', 'fatigue', 'shortness of breath', 'chest discomfort'],
+            name: "Rubella (German Measles)",
+            info: "Rubella is a contagious viral infection that causes a red rash, fever, and swollen lymph nodes. It spreads through respiratory droplets from coughs or sneezes. Rubella can cause serious complications in pregnant women, leading to birth defects.",
+            symptoms: ['red rash', 'swollen lymph nodes', 'fever'],
+            medications: [
+                { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Rest, stay hydrated, and use over-the-counter pain relievers to manage symptoms. Vaccination is the primary method of prevention.",
             weight: 0
         },
         {
-            name: "Pneumonia, which is an infection that inflames the air sacs in one or both lungs, which can fill with fluid or pus. It can be caused by bacteria, viruses, or fungi. Common symptoms include cough (often with phlegm), fever, chills, shortness of breath, chest pain, fatigue, and confusion, especially in older adults. Pneumonia can range from mild to severe and is a leading cause of illness and death worldwide, particularly in young children, the elderly, and those with weakened immune systems. Treatment depends on the cause of the infection. Bacterial pneumonia is typically treated with antibiotics, while viral pneumonia may be managed with antiviral medications and supportive care, such as rest, fluids, and fever reducers. In severe cases, hospitalization and oxygen therapy may be needed. Vaccines are available to help prevent certain types of pneumonia, such as the pneumococcal vaccine and the flu vaccine. We reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['cough', 'fever', 'chills', 'shortness of breath', 'chest pain'],
+            name: "Pertussis (Whooping Cough)",
+            info: "Pertussis is a highly contagious bacterial infection that causes severe coughing fits followed by a whooping sound. It spreads through respiratory droplets from coughs or sneezes. Pertussis can lead to serious complications, especially in young children and those with weakened immune systems.",
+            symptoms: ['severe coughing fits', 'whooping sound', 'vomiting after coughing'],
+            medications: [
+                { name: "Azithromycin", dosage: "500 mg on day 1, then 250 mg once daily for 4 days", ageRange: [0, 100], allergies: [] },
+                { name: "Clarithromycin", dosage: "500 mg twice daily for 7 days", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Take prescribed antibiotics as directed. Rest, stay hydrated, and use over-the-counter medications to manage symptoms. Vaccination is the primary method of prevention.",
             weight: 0
         },
         {
-            name: "Sinusitis, or a sinus infection, is the inflammation or infection of the sinuses, which are air-filled cavities in the skull. It is often caused by a viral infection, but can also result from bacterial or fungal infections, allergies, or nasal polyps. Symptoms include a blocked or stuffy nose, facial pain or pressure, headache, thick nasal discharge, reduced sense of smell, cough, and fatigue. Treatment for sinusitis depends on the cause. Viral sinusitis typically resolves on its own, with rest, hydration, saline nasal sprays, and over-the-counter pain relievers offering symptom relief. Bacterial sinusitis may require antibiotics if symptoms persist for more than 10 days or worsen. Decongestants or nasal corticosteroids can help reduce inflammation, while avoiding allergens and irritants can prevent recurrence. In chronic cases, further treatments such as surgery or long-term medications may be needed. We reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['facial pain', 'nasal congestion', 'runny nose', 'loss of smell', 'cough'],
+            name: "Diphtheria",
+            info: "Diphtheria is a serious bacterial infection that affects the mucous membranes of the throat and nose. It causes a thick, gray coating in the throat, leading to difficulty breathing, sore throat, and swollen glands. Diphtheria spreads through respiratory droplets from coughs or sneezes.",
+            symptoms: ['thick gray coating in throat', 'difficulty breathing', 'swollen glands'],
+            medications: [
+                { name: "Diphtheria antitoxin", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] },
+                { name: "Erythromycin", dosage: "500 mg four times daily for 14 days", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and avoid close contact with others to prevent spreading the infection. Vaccination is the primary method of prevention.",
             weight: 0
         },
         {
-            name: "Asthma, which is a chronic respiratory condition in which the airways become inflamed and narrowed, making it difficult to breathe. It is often triggered by allergens, exercise, cold air, smoke, or respiratory infections. Symptoms include wheezing, shortness of breath, chest tightness, and coughing, especially at night or early in the morning. Asthma can range from mild to severe and may be life-threatening if not properly managed. Asthma is typically treated with inhaled medications, including bronchodilators (e.g., albuterol) to relieve acute symptoms and corticosteroids (e.g., fluticasone) to reduce inflammation. Long-term control medications, such as leukotriene modifiers or biologics, may be prescribed for persistent asthma. Managing asthma involves avoiding triggers, using prescribed medications regularly, and monitoring symptoms. In emergency situations, a quick-relief inhaler can help alleviate sudden asthma attacks. We reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['shortness of breath', 'chest tightness', 'wheezing', 'cough'],
+            name: "Tetanus",
+            info: "Tetanus is a bacterial infection caused by Clostridium tetani. It affects the nervous system, leading to muscle stiffness and spasms. Tetanus can enter the body through cuts or wounds contaminated with the bacteria. Symptoms include jaw cramping, muscle stiffness, and difficulty swallowing.",
+            symptoms: ['jaw cramping', 'muscle stiffness', 'difficulty swallowing'],
+            medications: [
+                { name: "Tetanus immune globulin", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] },
+                { name: "Metronidazole", dosage: "500 mg every 6 hours for 7-10 days", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and practice good wound care to prevent infection. Vaccination is the primary method of prevention.",
             weight: 0
         },
         {
-            name: "Gastroenteritis, which is an inflammation of the stomach and intestines, typically caused by viral, bacterial, or parasitic infections. Common viruses that cause gastroenteritis include norovirus and rotavirus. Symptoms include diarrhea, nausea, vomiting, stomach cramps, fever, and dehydration. It is highly contagious and can spread through contaminated food, water, or contact with infected individuals. Treatment focuses on staying hydrated to prevent dehydration, which is a common complication, especially in young children and the elderly. Oral rehydration solutions or clear fluids like broth and water are recommended. Over-the-counter anti-diarrheal medications can help in some cases, but they should be avoided in children with viral gastroenteritis. Antibiotics may be prescribed if a bacterial cause is suspected. Most cases resolve within a few days, but good hygiene practices, such as frequent handwashing, can help prevent the spread of the infection. We reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['nausea', 'vomiting', 'diarrhea', 'stomach cramps', 'fever'],
+            name: "Hepatitis A",
+            info: "Hepatitis A is a viral infection that affects the liver, causing inflammation. It spreads through contaminated food or water. Symptoms include jaundice, fatigue, abdominal pain, and loss of appetite.",
+            symptoms: ['jaundice', 'abdominal pain', 'loss of appetite'],
+            medications: [
+                { name: "Supportive care", dosage: "As needed", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Rest, stay hydrated, and avoid alcohol to reduce liver strain. Practice good hygiene and avoid contaminated food or water. Vaccination is the primary method of prevention.",
             weight: 0
         },
         {
-            name: "Mononucleosis, which is a viral infection most often caused by the Epstein-Barr virus (EBV). It is typically spread through saliva, which is why it's sometimes called the kissing disease, though it can also spread through other bodily fluids. Symptoms include extreme fatigue, sore throat, fever, swollen lymph nodes, and swollen tonsils. Some individuals may also experience a rash or an enlarged spleen. There is no specific treatment for mono, as it is a viral infection that usually resolves on its own. Management focuses on relieving symptoms, such as using pain relievers for fever and sore throat, staying hydrated, and resting. In some cases, corticosteroids may be prescribed to reduce swelling. Since mono can lead to complications like a ruptured spleen, it's important to avoid strenuous activities during recovery. Most people recover within a few weeks, though fatigue may last longer. We reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['fever', 'sore throat', 'swollen lymph nodes', 'fatigue', 'headache'],
+            name: "Hepatitis B",
+            info: "Hepatitis B is a viral infection that affects the liver, causing inflammation. It spreads through contact with infected blood or body fluids. Symptoms include jaundice, fatigue, abdominal pain, and dark urine.",
+            symptoms: ['dark urine', 'fatigue', 'jaundice'],
+            medications: [
+                { name: "Entecavir", dosage: "0.5 mg once daily", ageRange: [0, 100], allergies: [] },
+                { name: "Tenofovir", dosage: "300 mg once daily", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and avoid alcohol to reduce liver strain. Practice safe sex and avoid sharing needles. Vaccination is the primary method of prevention.",
             weight: 0
         },
         {
-            name: "Chickenpox, which is a highly contagious viral infection caused by the varicella-zoster virus. It is characterized by an itchy rash that starts as red spots, which develop into fluid-filled blisters that eventually crust over. Other symptoms may include fever, fatigue, loss of appetite, and headache. Chickenpox is most common in children but can occur in adults, where it may be more severe. Treatment for chickenpox typically involves managing symptoms, such as using antihistamines or calamine lotion to relieve itching, and taking pain relievers like acetaminophen to reduce fever and discomfort. Antiviral medications may be prescribed for adults or individuals at high risk for complications. It's important to stay home to prevent spreading the virus. A vaccine is available to prevent chickenpox and is commonly given during childhood. Once recovered, the virus remains dormant in the body and can reactivate later in life as shingles. We reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['fever', 'rash', 'itching', 'fatigue', 'loss of appetite'],
+            name: "Hepatitis C",
+            info: "Hepatitis C is a viral infection that affects the liver, causing inflammation. It spreads through contact with infected blood. Symptoms include jaundice, fatigue, abdominal pain, and dark urine.",
+            symptoms: ['dark urine', 'fatigue', 'jaundice'],
+            medications: [
+                { name: "Sofosbuvir", dosage: "400 mg once daily", ageRange: [0, 100], allergies: [] },
+                { name: "Ledipasvir", dosage: "90 mg once daily", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and avoid alcohol to reduce liver strain. Practice safe sex and avoid sharing needles.",
             weight: 0
         },
         {
-            name: "Lyme disease, which is a bacterial infection transmitted to humans through the bite of an infected black-legged (deer) tick. The bacteria responsible for Lyme disease is *Borrelia burgdorferi*. Early symptoms often include a characteristic circular rash, called erythema migrans, which may look like a bull's eye, along with fever, fatigue, headache, muscle and joint aches. If left untreated, it can cause more severe complications, including joint pain, neurological issues, and heart problems. Treatment for Lyme disease typically involves antibiotics, such as doxycycline, amoxicillin, or cefuroxime, which are most effective when started early. In more advanced stages, longer courses of antibiotics or intravenous treatment may be required. Preventing Lyme disease involves avoiding tick bites by using insect repellents, wearing long sleeves and pants, and checking for ticks after outdoor activities, especially in areas where Lyme disease is common. We reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['fever', 'chills', 'rash', 'headache', 'fatigue', 'muscle and joint aches', 'swollen lymph nodes'],
+            name: "Irritable Bowel Syndrome (IBS)",
+            info: "IBS is a common disorder that affects the large intestine. Symptoms include cramping, abdominal pain, bloating, gas, and diarrhea or constipation, or both. IBS is a chronic condition that you'll need to manage long term.",
+            symptoms: ['abdominal pain', 'bloating', 'gas'],
+            medications: [
+                { name: "Loperamide", dosage: "2 mg after each loose stool", ageRange: [12, 100], allergies: [] },
+                { name: "Dicyclomine", dosage: "20 mg four times daily", ageRange: [12, 100], allergies: [] }
+            ],
+            recommendations: "Manage stress, make dietary changes, and use medications as prescribed. Regular exercise and adequate sleep can also help manage symptoms.",
             weight: 0
         },
         {
-            name: "Fibromyalgia, which is a chronic condition that causes widespread musculoskeletal pain, along with other symptoms like muscle cramps, joint pain, fatigue, sleep disturbances, and cognitive difficulties often referred to as fibro fog. The exact cause of fibromyalgia is unclear, but it is believed to involve abnormal processing of pain signals in the brain and nervous system, leading to an increased sensitivity to pain. Stress, genetics, infections, or physical trauma can sometimes trigger or worsen the condition. Treatment typically involves a combination of pain management, physical therapy, exercise, and medications, including pain relievers, antidepressants, and anti-seizure drugs to help alleviate symptoms. Lifestyle changes, such as managing stress, improving sleep, and regular low-impact exercise, are also important for managing the condition. While there is no cure, many people with fibromyalgia find relief through a combination of therapies tailored to their needs. We reccomend consulting a healthcare professional for further evaluation and treatment.",
-            symptoms: ['muscle pain', 'fatigue', 'sleep disturbances', 'cognitive difficulties', 'joint pain', 'headaches', 'Irritable Bowel Syndrome (IBS)'], 
+            name: "Gastritis",
+            info: "Gastritis is an inflammation, irritation, or erosion of the lining of the stomach. It can occur suddenly (acute) or gradually (chronic). Symptoms include upper abdominal pain, nausea, and bloating.",
+            symptoms: ['upper abdominal pain', 'nausea', 'bloating'],
+            medications: [
+                { name: "Antacids", dosage: "As per package instructions", ageRange: [12, 100], allergies: [] },
+                { name: "Proton pump inhibitors", dosage: "As per doctor's instructions", ageRange: [12, 100], allergies: [] }
+            ],
+            recommendations: "Avoid hot and spicy foods, alcohol, and smoking. Eat smaller, more frequent meals and manage stress.",
+            weight: 0
+        },
+        {
+            name: "Migraine",
+            info: "A migraine is a headache that can cause severe throbbing pain or a pulsing sensation, usually on one side of the head. It's often accompanied by nausea, vomiting, and extreme sensitivity to light and sound.",
+            symptoms: ['severe headache', 'nausea', 'sensitivity to light'],
+            medications: [
+                { name: "Sumatriptan", dosage: "50-100 mg at onset of symptoms", ageRange: [18, 100], allergies: [] },
+                { name: "Rizatriptan", dosage: "10 mg at onset of symptoms", ageRange: [18, 100], allergies: [] }
+            ],
+            recommendations: "Rest in a quiet, dark room. Apply a cool cloth or ice pack to your forehead. Stay hydrated and avoid known migraine triggers.",
+            weight: 0
+        },
+        {
+            name: "Appendicitis",
+            info: "Appendicitis is an inflammation of the appendix, a small tube-shaped pouch attached to your large intestine. Symptoms include sudden pain that begins on the right side of the lower abdomen, nausea, and loss of appetite.",
+            symptoms: ['right lower abdominal pain', 'nausea', 'loss of appetite'],
+            medications: [
+                { name: "Antibiotics", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Seek immediate medical attention. Surgery is often required to remove the inflamed appendix.",
+            weight: 0
+        },
+        {
+            name: "Kidney Stones",
+            info: "Kidney stones are hard deposits made of minerals and salts that form inside your kidneys. Symptoms include severe pain in the side and back, pain that radiates to the lower abdomen and groin, and pain that comes in waves and fluctuates in intensity.",
+            symptoms: ['severe side pain', 'pain radiating to lower abdomen', 'pain in waves'],
+            medications: [
+                { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] },
+                { name: "Alpha blockers", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Drink plenty of water to help pass the stones. Follow your doctor's recommendations for pain management and treatment.",
+            weight: 0
+        },
+        {
+            name: "Pancreatitis",
+            info: "Pancreatitis is inflammation of the pancreas. It can occur as acute pancreatitis, which means it appears suddenly and lasts for days, or as chronic pancreatitis, which occurs over many years. Symptoms include upper abdominal pain, abdominal pain that radiates to your back, and tenderness when touching the abdomen.",
+            symptoms: ['upper abdominal pain', 'pain radiating to back', 'abdominal tenderness'],
+            medications: [
+                { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] },
+                { name: "Enzyme supplements", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and avoid alcohol. Follow a low-fat diet.",
+            weight: 0
+        },
+        {
+            name: "Pneumonia",
+            info: "Pneumonia is an infection that inflames the air sacs in one or both lungs. The air sacs may fill with fluid or pus, causing cough with phlegm or pus, fever, chills, and difficulty breathing.",
+            symptoms: ['chest pain', 'cough with phlegm', 'shortness of breath'],
+            medications: [
+                { name: "Amoxicillin", dosage: "500 mg three times daily for 7-10 days", ageRange: [0, 100], allergies: [] },
+                { name: "Clarithromycin", dosage: "500 mg twice daily for 7-10 days", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Take prescribed antibiotics as directed. Rest, stay hydrated, and use over-the-counter medications to manage fever and pain.",
+            weight: 0
+        },
+        {
+            name: "Bronchitis",
+            info: "Bronchitis is an inflammation of the lining of your bronchial tubes, which carry air to and from your lungs. It often causes coughing up thickened mucus, which can be discolored.",
+            symptoms: ['persistent cough', 'mucus production', 'fatigue'],
+            medications: [
+                { name: "Cough suppressants", dosage: "As per package instructions", ageRange: [12, 100], allergies: [] },
+                { name: "Bronchodilators", dosage: "As per doctor's instructions", ageRange: [12, 100], allergies: [] }
+            ],
+            recommendations: "Rest, stay hydrated, and use over-the-counter medications to manage symptoms. Avoid smoking and other lung irritants.",
+            weight: 0
+        },
+        {
+            name: "Sinusitis",
+            info: "Sinusitis is an inflammation or swelling of the tissue lining the sinuses. It can cause a blocked or runny nose, facial pain or pressure, and a reduced sense of smell.",
+            symptoms: ['facial pain', 'blocked nose', 'reduced sense of smell'],
+            medications: [
+                { name: "Decongestants", dosage: "As per package instructions", ageRange: [12, 100], allergies: [] },
+                { name: "Nasal corticosteroids", dosage: "As per doctor's instructions", ageRange: [12, 100], allergies: [] }
+            ],
+            recommendations: "Use over-the-counter medications to manage symptoms. Stay hydrated and use a humidifier to keep the air moist.",
+            weight: 0
+        },
+        {
+            name: "Urinary Tract Infection (UTI)",
+            info: "A UTI is an infection in any part of your urinary system — your kidneys, ureters, bladder, and urethra. It often causes a strong, persistent urge to urinate, a burning sensation when urinating, and cloudy urine.",
+            symptoms: ['burning sensation when urinating', 'persistent urge to urinate', 'cloudy urine'],
+            medications: [
+                { name: "Trimethoprim/sulfamethoxazole", dosage: "160/800 mg twice daily for 3 days", ageRange: [12, 100], allergies: [] },
+                { name: "Nitrofurantoin", dosage: "100 mg twice daily for 5 days", ageRange: [12, 100], allergies: [] }
+            ],
+            recommendations: "Take prescribed antibiotics as directed. Drink plenty of water to help flush out the bacteria.",
+            weight: 0
+        },
+        {
+            name: "Gout",
+            info: "Gout is a form of arthritis characterized by severe pain, redness, and tenderness in joints. It often affects the joint at the base of the big toe.",
+            symptoms: ['severe joint pain', 'redness in joints', 'tenderness in joints'],
+            medications: [
+                { name: "Colchicine", dosage: "1.2 mg at the first sign of a gout flare, followed by 0.6 mg one hour later", ageRange: [18, 100], allergies: [] },
+                { name: "Allopurinol", dosage: "100-300 mg once daily", ageRange: [18, 100], allergies: [] }
+            ],
+            recommendations: "Take prescribed medications as directed. Avoid foods high in purines, such as red meat and seafood.",
+            weight: 0
+        },
+        {
+            name: "Sciatica",
+            info: "Sciatica refers to pain that radiates along the path of the sciatic nerve, which branches from your lower back through your hips and buttocks and down each leg.",
+            symptoms: ['lower back pain', 'pain radiating down leg', 'numbness in leg'],
+            medications: [
+                { name: "NSAIDs", dosage: "As per package instructions", ageRange: [18, 100], allergies: [] },
+                { name: "Muscle relaxants", dosage: "As per doctor's instructions", ageRange: [18, 100], allergies: [] }
+            ],
+            recommendations: "Rest, use over-the-counter pain relievers, and apply heat or ice to the affected area. Physical therapy may also help.",
+            weight: 0
+        },
+        {
+            name: "Tonsillitis",
+            info: "Tonsillitis is an inflammation of the tonsils, two oval-shaped pads of tissue at the back of the throat. It often causes sore throat, difficulty swallowing, and tender lymph nodes.",
+            symptoms: ['sore throat', 'difficulty swallowing', 'tender lymph nodes'],
+            medications: [
+                { name: "Penicillin", dosage: "250 mg four times daily for 10 days. Please avoid taking this medication if a Penicillin allergy is present.", ageRange: [0, 100], allergies: ["penicillin"] },
+                { name: "Amoxicillin", dosage: "500 mg three times daily for 10 days", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Take prescribed antibiotics as directed. Rest, stay hydrated, and use over-the-counter pain relievers to manage symptoms.",
+            weight: 0
+        },
+        {
+            name: "Eczema",
+            info: "Eczema is a condition that makes your skin red and itchy. It's common in children but can occur at any age. Eczema is long-lasting (chronic) and tends to flare periodically.",
+            symptoms: ['itchy skin', 'red patches on skin', 'dry skin'],
+            medications: [
+                { name: "Topical corticosteroids", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] },
+                { name: "Antihistamines", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Use prescribed medications as directed. Keep your skin moisturized and avoid triggers that cause flare-ups.",
+            weight: 0
+        },
+        {
+            name: "Psoriasis",
+            info: "Psoriasis is a skin disease that causes red, itchy scaly patches, most commonly on the knees, elbows, trunk, and scalp.",
+            symptoms: ['red scaly patches', 'itchy skin', 'dry cracked skin'],
+            medications: [
+                { name: "Topical corticosteroids", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] },
+                { name: "Vitamin D analogues", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Use prescribed medications as directed. Keep your skin moisturized and avoid triggers that cause flare-ups.",
+            weight: 0
+        },
+        {
+            name: "Osteoarthritis",
+            info: "Osteoarthritis is the most common form of arthritis, affecting millions of people worldwide. It occurs when the protective cartilage that cushions the ends of your bones wears down over time.",
+            symptoms: ['joint pain', 'stiffness', 'loss of flexibility'],
+            medications: [
+                { name: "NSAIDs", dosage: "As per package instructions", ageRange: [18, 100], allergies: [] },
+                { name: "Acetaminophen", dosage: "As per package instructions", ageRange: [18, 100], allergies: [] }
+            ],
+            recommendations: "Use over-the-counter pain relievers as directed. Maintain a healthy weight and stay active to manage symptoms.",
+            weight: 0
+        },
+        {
+            name: "Anemia",
+            info: "Anemia is a condition in which you lack enough healthy red blood cells to carry adequate oxygen to your body's tissues. It can cause fatigue, weakness, and pale skin.",
+            symptoms: ['fatigue', 'weakness', 'pale skin'],
+            medications: [
+                { name: "Iron supplements", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] },
+                { name: "Vitamin B12 injections", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Eat a diet rich in iron and vitamins. Take prescribed supplements as directed. Rest and avoid strenuous activities.",
+            weight: 0
+        },
+        {
+            name: "Asthma",
+            info: "Asthma is a condition in which your airways narrow and swell and may produce extra mucus. This can make breathing difficult and trigger coughing, wheezing, and shortness of breath.",
+            symptoms: ['wheezing', 'shortness of breath', 'chest tightness'],
+            medications: [
+                { name: "Inhaled corticosteroids", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] },
+                { name: "Bronchodilators", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Avoid asthma triggers. Use prescribed inhalers and medications as directed. Monitor your breathing and seek medical help if symptoms worsen.",
+            weight: 0
+        },
+        {
+            name: "Celiac Disease",
+            info: "Celiac disease is an immune reaction to eating gluten, a protein found in wheat, barley, and rye. It can cause digestive discomfort and damage to the small intestine.",
+            symptoms: ['diarrhea', 'bloating', 'weight loss'],
+            medications: [
+                { name: "Gluten-free diet", dosage: "Lifelong", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Follow a strict gluten-free diet. Avoid foods containing wheat, barley, and rye. Consult a dietitian for guidance.",
+            weight: 0
+        },
+        {
+            name: "Chronic Fatigue Syndrome (CFS)",
+            info: "CFS is a complex disorder characterized by extreme fatigue that can't be explained by any underlying medical condition. The fatigue may worsen with physical or mental activity but doesn't improve with rest.",
+            symptoms: ['extreme fatigue', 'unrefreshing sleep', 'muscle pain'],
+            medications: [
+                { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] },
+                { name: "Antidepressants", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Manage stress, maintain a balanced diet, and get regular exercise. Follow your doctor's treatment plan.",
+            weight: 0
+        },
+        {
+            name: "Diverticulitis",
+            info: "Diverticulitis occurs when one or more diverticula in your digestive tract become inflamed or infected. It can cause severe abdominal pain, fever, and changes in bowel habits.",
+            symptoms: ['lower left abdominal pain', 'fever', 'constipation'],
+            medications: [
+                { name: "Antibiotics", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] },
+                { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Follow a liquid or low-fiber diet during flare-ups. Take prescribed medications as directed. Gradually increase fiber intake as symptoms improve.",
+            weight: 0
+        },
+        {
+            name: "Fibromyalgia",
+            info: "Fibromyalgia is a disorder characterized by widespread musculoskeletal pain accompanied by fatigue, sleep, memory, and mood issues.",
+            symptoms: ['widespread pain', 'fatigue', 'sleep disturbances'],
+            medications: [
+                { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] },
+                { name: "Antidepressants", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Exercise regularly, practice stress management techniques, and get adequate sleep. Follow your doctor's treatment plan.",
+            weight: 0
+        },
+        {
+            name: "Gallstones",
+            info: "Gallstones are hardened deposits of digestive fluid that can form in your gallbladder. They can cause sudden and rapidly intensifying pain in the upper right portion of your abdomen.",
+            symptoms: ['upper right abdominal pain', 'nausea', 'vomiting'],
+            medications: [
+                { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] },
+                { name: "Ursodiol", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Avoid fatty foods, maintain a healthy weight, and follow your doctor's treatment plan. Surgery may be required to remove the gallbladder.",
+            weight: 0
+        },
+        {
+            name: "Hyperthyroidism",
+            info: "Hyperthyroidism is a condition in which your thyroid gland produces too much of the hormone thyroxine. It can accelerate your body's metabolism, causing unintentional weight loss and a rapid or irregular heartbeat.",
+            symptoms: ['weight loss', 'rapid heartbeat', 'nervousness'],
+            medications: [
+                { name: "Antithyroid medications", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] },
+                { name: "Beta-blockers", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Take prescribed medications as directed. Monitor your thyroid levels regularly. Follow your doctor's treatment plan.",
+            weight: 0
+        },
+        {
+            name: "Hypothyroidism",
+            info: "Hypothyroidism is a condition in which your thyroid gland doesn't produce enough of certain crucial hormones. It can cause fatigue, weight gain, and depression.",
+            symptoms: ['fatigue', 'weight gain', 'depression'],
+            medications: [
+                { name: "Levothyroxine", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Take prescribed medications as directed. Monitor your thyroid levels regularly. Follow your doctor's treatment plan.",
+            weight: 0
+        },
+        {
+            name: "Lupus",
+            info: "Lupus is a systemic autoimmune disease that occurs when your body's immune system attacks your own tissues and organs. It can cause inflammation and damage to various body systems.",
+            symptoms: ['joint pain', 'butterfly-shaped rash on face', 'fatigue'],
+            medications: [
+                { name: "NSAIDs", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] },
+                { name: "Corticosteroids", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Take prescribed medications as directed. Protect yourself from the sun, and maintain a healthy lifestyle. Follow your doctor's treatment plan.",
             weight: 0
         }
     ];
 
-    // Calculate weights for each condition
-    symptoms.forEach(symptom => {
-        conditions.forEach(condition => {
-            if (condition.symptoms.includes(symptom)) {
-                condition.weight += 1;
-            }
-        });
+   // Calculate the weight for each condition based on the provided symptoms
+   conditions.forEach(condition => {
+    condition.weight = condition.symptoms.reduce((weight, symptom) => {
+        return weight + (symptoms.includes(symptom) ? 1 : 0);
+    }, 0);
+});
+
+// Determine the condition with the highest weight
+let diagnosisResult = "Based on your symptoms, we have diagnosed you with ";
+const maxWeightCondition = conditions.reduce((prev, current) => (prev.weight > current.weight) ? prev : current);
+
+if (maxWeightCondition.weight > 0) {
+    diagnosisResult += maxWeightCondition.name;
+    const conditionInfo = maxWeightCondition.info;
+    const conditionRecommendations = maxWeightCondition.recommendations;
+
+    // Filter medications based on age and allergies
+    const suitableMedications = maxWeightCondition.medications.filter(med => {
+        return age >= med.ageRange[0] && age <= med.ageRange[1] && !allergies.some(allergy => med.allergies.includes(allergy));
     });
 
-    // Determine the condition with the highest weight
-    let diagnosisResult = "<p>Based on your symptoms, we have diagnosed you with:</p>";
-    const maxWeightCondition = conditions.reduce((prev, current) => (prev.weight > current.weight) ? prev : current);
-
-    if (maxWeightCondition.weight > 0) {
-        diagnosisResult += `<p>${maxWeightCondition.name}</p>`;
-    } else {
-        diagnosisResult += "<p>an unknown condition. Please consult a healthcare professional for further evaluation and treatment.</p>";
+    let medicationInfo = "No suitable medications found for your age or allergies.";
+    if (suitableMedications.length > 0) {
+        medicationInfo = suitableMedications.map(med => `${med.name}: ${med.dosage}`).join('<br>');
     }
 
-    document.getElementById('diagnosisResult').innerHTML = diagnosisResult;
+    document.getElementById('diagnosisResult').innerHTML = `
+        <h2>Diagnosis & Information</h2>
+        <p>${diagnosisResult}</p>
+        <p>${conditionInfo}</p>
+        <h2>Medications and Dosage</h2>
+        <p>${medicationInfo}</p>
+        <h2>Personalized Recommendations</h2>
+        <p>${conditionRecommendations}</p>
+    `;
+} else {
+    diagnosisResult += "an unknown condition. Please consult a healthcare professional for further evaluation and treatment.";
+    document.getElementById('diagnosisResult').textContent = diagnosisResult;
+}
 });
