@@ -1,26 +1,16 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 /* General Body Styles */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #f5f5f7;
+    background-color: #ffffff;
     color: #1d1d1f;
     line-height: 1.6;
+    text-align: center;
 }
 
 /* Header */
 header {
-    background-color: #ffffff;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 1rem 0;
-}
-
-nav {
-    background-color: #ffffff; /* Revert to the previous background color */
+    background: #ffffff;
+    padding: 1.5rem 0;
 }
 
 nav ul {
@@ -32,30 +22,41 @@ nav ul {
 }
 
 nav ul li {
-    margin: 0 1.5rem; /* Increased margin for spacing */
+    margin: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
 }
 
 nav ul li a {
     text-decoration: none;
     color: #1d1d1f;
     font-weight: 500;
-    padding: 0.5rem 1rem;
+    padding: 1rem 0;
     transition: color 0.3s;
-    font-size: 1.2rem; /* Increased font size */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.2rem;
 }
 
 nav ul li a:hover {
     color: #0071e3;
 }
 
-nav ul li a i {
-    margin-right: 0.5rem;
-    font-size: 1.2rem; /* Increased icon size */
-}
-
 nav ul li i {
     margin-bottom: 0.5rem;
-    font-size: 1.2rem; /* Make the icons a bit larger */
+    font-size: 1.3rem;
+}
+
+.logo {
+    display: block;
+    margin: 0.2rem auto; /* Adjust this value to move the logo up or down */
+    max-width: 300px;
+    height: auto;
+    padding: 1rem 0; /* Add padding to give some space around the logo */
+    margin-top: -20px; /* Move the logo up by 20 pixels, adjust as needed */
 }
 
 /* Hero Section */
@@ -63,28 +64,32 @@ nav ul li i {
     background: url('hero-image.jpg') no-repeat center center/cover;
     color: white;
     text-align: center;
-    padding: 6rem 1rem;
+    padding: 1rem 1rem; /* Reduce padding to move content higher */
+}
+
+.hero-content {
+    margin-top: -10rem; /* Move content higher */
 }
 
 .hero-content .title {
-    font-size: 4rem;
+    font-size: 4rem; /* Increase the font size */
     margin-bottom: 1rem;
-    color: #000000; /* Changed to black */
-    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5); /* Light shadow for contrast */
+    color: #000000;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
 }
 
 .hero-content .subtitle {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    color: #000000; /* Changed to black */
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5); /* Light shadow for contrast */
+    font-size: 1.5rem; /* Make the subheading a bit larger */
+    margin-bottom: 1rem;
+    color: #000000;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .hero-content button {
     background-color: #0071e3;
     color: white;
     border: none;
-    padding: 1rem 2rem;
+    padding: 0.8rem 1.5rem;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -98,30 +103,27 @@ nav ul li i {
 /* About Section */
 .about-section {
     text-align: center;
-    padding: 4rem 1rem;
-    background-color: #e0e0e0; /* Changed to a light gray background */
-    color: black; /* Changed to black */
-    border-top: 2px solid #e0e0e0; /* Added border at the top */
+    padding: 2rem 1rem;
+    background: #f5f5f7;
+    color: #000000;
 }
 
 .about-section h2 {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: black; /* Changed to black */
 }
 
 .about-section p {
-    max-width: 800px;
+    max-width: 600px;
     margin: 0 auto;
-    font-size: 1.2rem;
+    font-size: 1rem;
     line-height: 1.6;
-    color: black; /* Changed to black */
 }
 
 /* Features Section */
 .features-section {
-    background-color: #f5f5f7;
-    padding: 4rem 1rem;
+    background-color: #ffffff;
+    padding: 2rem 1rem;
     text-align: center;
 }
 
@@ -135,16 +137,16 @@ nav ul li i {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .feature {
-    background: #ffffff;
-    padding: 2rem;
+    background: #f5f5f7;
+    padding: 1.5rem;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    max-width: 300px;
-    text-align: left;
+    max-width: 250px;
+    text-align: center;
 }
 
 .feature h3 {
@@ -160,21 +162,20 @@ nav ul li i {
 
 /* Recommendations Section */
 .recommendations-section {
-    background-color: #f5f5f7;
-    padding: 4rem 1rem;
     text-align: center;
+    padding: 2rem 1rem;
+    background: #f5f5f7;
+    color: #000000;
 }
 
 .recommendations-section h2 {
     font-size: 2rem;
-    color: #1d1d1f;
-    margin-bottom: 1rem; /* Reduced margin-bottom to move the text up */
-    margin-top: 2rem; /* Added margin-top to create space above the text */
+    margin-bottom: 1rem;
 }
 
 .recommendations-section p {
     max-width: 600px;
-    margin: 0 auto 2rem auto; /* Add bottom margin to create space */
+    margin: 0 auto 2rem auto;
     font-size: 1rem;
     line-height: 1.6;
 }
@@ -183,17 +184,17 @@ nav ul li i {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 2rem;
-    margin-top: 2rem; /* Add top margin to create space */
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
 .recommendation {
-    background: #ffffff;
-    padding: 2rem;
+    background: #f5f5f7;
+    padding: 1.5rem;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    max-width: 300px;
-    text-align: left;
+    max-width: 250px;
+    text-align: center;
 }
 
 .recommendation h3 {
@@ -217,8 +218,8 @@ nav ul li i {
 
 /* FAQ Section */
 .faq-section {
-    background-color: #ffffff;
-    padding: 4rem 1rem;
+    background-color: #f5f5f7;
+    padding: 2rem 1rem;
     text-align: center;
 }
 
@@ -245,7 +246,7 @@ nav ul li i {
     border-radius: 5px;
 }
 
-.faq-question:hover {
+faq-question:hover {
     background-color: #005bb5;
 }
 
@@ -265,7 +266,7 @@ nav ul li i {
 /* Contact Section */
 .contact-section {
     background-color: #ffffff;
-    padding: 3rem 1rem;
+    padding: 2rem 1rem;
     text-align: center;
 }
 
@@ -307,6 +308,7 @@ footer p {
     background-color: #ffffff;
     padding: 3rem 1rem;
     text-align: center;
+    margin-top: -150px; 
 }
 
 .diagnosis-section h2 {
@@ -360,7 +362,7 @@ footer p {
 .result-section {
     background-color: #ffffff;
     padding: 3rem 1rem;
-    text-align: center;
+    text-align: left;
 }
 
 .result-section h2 {
@@ -373,6 +375,11 @@ footer p {
     max-width: 600px;
     margin: 0 auto;
     text-align: left;
+    margin-top: -150px; 
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .result-section p {
@@ -401,8 +408,10 @@ footer p {
 /* Logo Styles */
 .logo {
     display: block;
-    margin: 0 auto;
-    max-width: 200px; /* Adjust the maximum width */
+    margin: 0.2rem auto; /* Adjust this value to move the logo up or down */
+    max-width: 360px;
     height: auto;
     padding: 1rem 0; /* Add padding to give some space around the logo */
+    margin-top: -35px; /* Move the logo up by 20 pixels, adjust as needed */
 }
+
