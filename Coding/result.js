@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             medications: [
                 { name: "Oseltamivir (Tamiflu)", dosage: "75 mg twice daily for 5 days", ageRange: [13, 100], allergies: [] },
                 { name: "Zanamivir (Relenza)", dosage: "10 mg (two inhalations) twice daily for 5 days. Please avoid taking this medication if a milk allergy is present.", ageRange: [7, 100], allergies: ["milk"] },
-                { name: "Baloxavir marboxil (Xofluza)", dosage: "40 mg single dose for 40-80 kg, 80 mg single dose for >80 kg", ageRange: [12, 100], allergies: [] },
+                { name: "Baloxavir marboxil (Xofluza)", dosage: "40 mg single dose for those between 40-80 kg,  and 80 mg single dose for those with a weight higher than 80 kg", ageRange: [12, 100], allergies: [] },
                 { name: "Peramivir (Rapivab)", dosage: "600 mg IV single dose", ageRange: [18, 100], allergies: [] }
             ],
             recommendations: "For symptom relief, over-the-counter medications like acetaminophen or ibuprofen can help manage fever and pain. Rest, stay hydrated, and avoid close contact with others to prevent spreading the virus.",
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             name: "Tetanus",
-            info: "Tetanus is a bacterial infection caused by Clostridium tetani. It affects the nervous system, leading to muscle stiffness and spasms. Tetanus can enter the body through cuts or wounds contaminated with the bacteria. Symptoms include jaw cramping, muscle stiffness, and difficulty swallowing.",
+            info: "Tetanus is a bacterial infection caused by Clostridium Tetani. It affects the nervous system, leading to muscle stiffness and spasms. Tetanus can enter the body through cuts or wounds contaminated with the bacteria. Symptoms include jaw cramping, muscle stiffness, and difficulty swallowing.",
             symptoms: ['jaw cramping', 'muscle stiffness', 'difficulty swallowing'],
             medications: [
                 { name: "Tetanus immune globulin", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] },
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
             info: "Appendicitis is an inflammation of the appendix, a small tube-shaped pouch attached to your large intestine. Symptoms include sudden pain that begins on the right side of the lower abdomen, nausea, and loss of appetite.",
             symptoms: ['right lower abdominal pain', 'nausea', 'loss of appetite'],
             medications: [
-                { name: "Antibiotics", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+                { name: "Antibiotics", dosage: "As per doctor's instructions.", ageRange: [0, 100], allergies: [] }
             ],
             recommendations: "Seek immediate medical attention. Surgery is often required to remove the inflamed appendix.",
             weight: 0
@@ -460,12 +460,12 @@ if (maxWeightCondition.weight > 0) {
     const conditionInfo = maxWeightCondition.info;
     const conditionRecommendations = maxWeightCondition.recommendations;
 
-    // Filter medications based on age and allergies
+    // Filter medications based on age, weight, and allergies
     const suitableMedications = maxWeightCondition.medications.filter(med => {
-        return age >= med.ageRange[0] && age <= med.ageRange[1] && !allergies.some(allergy => med.allergies.includes(allergy));
+        return age >= med.ageRange[0] && age <= med.ageRange[1] && weight >= med.weightRange[0] && weight <= med.weightRange[1] && !allergies.some(allergy => med.allergies.includes(allergy));
     });
 
-    let medicationInfo = "No suitable medications found for your age or allergies.";
+    let medicationInfo = "No suitable medications found for your age, weight, or allergies.";
     if (suitableMedications.length > 0) {
         medicationInfo = suitableMedications.map(med => `${med.name}: ${med.dosage}`).join('<br>');
     }
