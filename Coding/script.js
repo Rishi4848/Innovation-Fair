@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     const faqQuestions = document.querySelectorAll('.faq-question');
 
@@ -13,4 +12,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
