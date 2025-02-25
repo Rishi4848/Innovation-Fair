@@ -441,46 +441,71 @@ document.addEventListener('DOMContentLoaded', function() {
             ],
             recommendations: "Take prescribed medications as directed. Protect yourself from the sun, and maintain a healthy lifestyle. Follow your doctor's treatment plan.",
             weight: 0
+        },
+        {
+            name: "Tuberculosis",
+            info: "Tuberculosis (TB) is a potentially serious infectious disease that mainly affects your lungs. The bacteria that cause tuberculosis are spread from person to person through tiny droplets released into the air via coughs and sneezes.",
+            symptoms: ['night sweats', 'continuous coughing', 'coughing blood', 'coughing sputum'],
+            medications: [
+                { name: "Isoniazid", dosage: "Adults: 5 mg/kg daily (maximum 300 mg per day); Children: 10-15 mg/kg daily (maximum 300 mg per day). ", ageRange: [0, 100], allergies: [] },
+                { name: "Rifampin", dosage: "Adults: 10 mg/kg daily (maximum 600 mg per day); Children: 10-20 mg/kg daily (maximum 600 mg per day).", ageRange: [0, 100], allergies: [] },
+                { name: "Pyrazinamide", dosage: "Adults: 15-30 mg/kg daily (maximum 2 g per day); Children: 15-30 mg/kg daily (maximum 2 g per day).", ageRange: [0, 100], allergies: [] },
+                { name: "Ethambutol", dosage: "Adults: 15-25 mg/kg daily (maximum 2.5 g per day); Children: 15-25 mg/kg daily (maximum 2.5 g per day).", ageRange: [0, 100], allergies: [] }
+            ],
+            recommendations: "Take prescribed medications as directed. Protect yourself from the sun, and maintain a healthy lifestyle. Follow your doctor's treatment plan.",
+            weight: 0
+        },
+        {
+            name: "Yellow Fever",
+            info: "Yellow fever is a viral infection spread by a particular type of mosquito. The infection is most common in areas of Africa and South America, affecting travelers to and residents of those areas.",
+            symptoms: ['jaundice', 'high fever', 'abdominal pain', 'muscle pain', 'bleeding from nose, mouth, eyes, or stomach'],
+            medications: [
+                { name: "Vaccination", dosage: "Doctor administered vaccination is highly required.", ageRange: [0, 1], allergies: [] },
+            ],
+            recommendations: "Seek doctor's advice for vaccination. Avoid mosquito bites by using insect repellent and wearing protective clothing.",
+            weight: 0
         }
     ];
 
-   // Calculate the weight for each condition based on the provided symptoms
-   conditions.forEach(condition => {
-    condition.weight = condition.symptoms.reduce((weight, symptom) => {
-        return weight + (symptoms.includes(symptom) ? 1 : 0);
-    }, 0);
-});
-
-// Determine the condition with the highest weight
-let diagnosisResult = "Based on your symptoms, we have diagnosed you with ";
-const maxWeightCondition = conditions.reduce((prev, current) => (prev.weight > current.weight) ? prev : current);
-
-if (maxWeightCondition.weight > 0) {
-    diagnosisResult += maxWeightCondition.name;
-    const conditionInfo = maxWeightCondition.info;
-    const conditionRecommendations = maxWeightCondition.recommendations;
-
-    // Filter medications based on age, weight, and allergies
-    const suitableMedications = maxWeightCondition.medications.filter(med => {
-        return age >= med.ageRange[0] && age <= med.ageRange[1] && weight >= med.weightRange[0] && weight <= med.weightRange[1] && !allergies.some(allergy => med.allergies.includes(allergy));
+    // Calculate the weight for each condition based on the provided symptoms
+    conditions.forEach(condition => {
+        condition.weight = condition.symptoms.reduce((weight, symptom) => {
+            return weight + (symptoms.includes(symptom) ? 1 : 0);
+        }, 0);
     });
 
-    let medicationInfo = "No suitable medications found for your age, weight, or allergies.";
-    if (suitableMedications.length > 0) {
-        medicationInfo = suitableMedications.map(med => `${med.name}: ${med.dosage}`).join('<br>');
-    }
+    // Determine the condition with the highest weight
+    let diagnosisResult = "Based on your symptoms, we have diagnosed you with ";
+    const maxWeightCondition = conditions.reduce((prev, current) => (prev.weight > current.weight) ? prev : current);
 
-    document.getElementById('diagnosisResult').innerHTML = `
-        <h2>Diagnosis & Information</h2>
-        <p>${diagnosisResult}</p>
-        <p>${conditionInfo}</p>
-        <h2>Medications and Dosage</h2>
-        <p>${medicationInfo}</p>
-        <h2>Personalized Recommendations</h2>
-        <p>${conditionRecommendations}</p>
-    `;
-} else {
-    diagnosisResult += "an unknown condition. Please consult a healthcare professional for further evaluation and treatment.";
-    document.getElementById('diagnosisResult').textContent = diagnosisResult;
-}
+    if (maxWeightCondition.weight > 0) {
+        diagnosisResult += maxWeightCondition.name;
+        const conditionInfo = maxWeightCondition.info;
+        const conditionRecommendations = maxWeightCondition.recommendations;
+
+        // Filter medications based on age and allergies
+        const suitableMedications = maxWeightCondition.medications.filter(med => {
+            return age >= med.ageRange[0] && age <= med.ageRange[1] && !allergies.some(allergy => med.allergies.includes(allergy));
+        });
+
+        let medicationInfo = "No suitable medications found for your age or allergies.";
+        if (suitableMedications.length > 0) {
+            medicationInfo = suitableMedications.map(med => `${med.name}: ${med.dosage}`).join('<br>');
+        }
+
+        document.getElementById('diagnosisResult').innerHTML = `
+            <h2>Diagnosis & Information</h2>
+            <p>${diagnosisResult}</p>
+            <p>${conditionInfo}</p>
+            <h2>Medications and Dosage</h2>
+            <p>${medicationInfo}</p>
+            <h2>Personalized Recommendations</h2>
+            <p>${conditionRecommendations}</p>
+        `;
+    } else {
+        document.getElementById('diagnosisResult').innerHTML = `
+            <h2>Diagnosis & Information</h2>
+            <p>No condition matched your symptoms. Please consult a healthcare professional for further evaluation.</p>
+        `;
+    }
 });
