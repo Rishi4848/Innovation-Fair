@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 { name: "Antacids", dosage: "As per package instructions", ageRange: [12, 100], allergies: [] },
                 { name: "Proton pump inhibitors", dosage: "As per doctor's instructions", ageRange: [12, 100], allergies: [] }
             ],
-            recommendations: "Avoid hot and spicy foods, alcohol, and smoking. Eat smaller, more frequent meals and manage stress.",
+            recommendations: "Avoid hot and spicy foods, alcohol, and smoking. Eat smaller, more frequent meals and manage stress. ",
             weight: 0
         },
         {
@@ -460,7 +460,20 @@ document.addEventListener('DOMContentLoaded', function() {
             info: "Yellow fever is a viral infection spread by a particular type of mosquito. The infection is most common in areas of Africa and South America, affecting travelers to and residents of those areas.",
             symptoms: ['jaundice', 'high fever', 'abdominal pain', 'muscle pain', 'bleeding from nose, mouth, eyes, or stomach'],
             medications: [
-                { name: "Vaccination", dosage: "Doctor administered vaccination is highly required.", ageRange: [0, 1], allergies: [] },
+                { name: "Vaccination", dosage: "Doctor administered vaccination is highly required.", ageRange: [0, 100], allergies: [] },
+            ],
+            recommendations: "Seek doctor's advice for vaccination. Avoid mosquito bites by using insect repellent and wearing protective clothing.",
+            weight: 0
+        },
+        {
+            name: "Multiple Sclerosis (MS)",
+            info: "Multiple sclerosis (MS) is a potentially disabling disease of the brain and spinal cord (central nervous system). In MS, the immune system attacks the protective sheath (myelin) that covers nerve fibers and causes communication problems between your brain and the rest of your body.",
+            symptoms: ['dizziness', 'blurred vision', 'fatigue', 'numb or tingling limbs'],
+            medications: [
+                { name: "Ocrelizumab (Ocrevus)", dosage: "300 mg every 6 months (split into two doses of 300 mg each, given at an initial dose).", ageRange: [0, 100], allergies: [] },
+                { name: "Dimethyl Fumarate (Tecfidera)", dosage: " 240 mg twice daily.", ageRange: [0, 100], allergies: [] },
+                { name: "Interferon beta-1a (Avonex, Rebif)", dosage: "30 mcg intramuscularly once a week.", ageRange: [0, 100], allergies: [] },
+                { name: "Fingolimod (Gilenya)", dosage: "0.5 mg orally once daily.", ageRange: [0, 100], allergies: [] },
             ],
             recommendations: "Seek doctor's advice for vaccination. Avoid mosquito bites by using insect repellent and wearing protective clothing.",
             weight: 0
