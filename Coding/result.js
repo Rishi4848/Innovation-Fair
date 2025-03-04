@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const conditions = [
         {
             name: "Influenza (Flu)",
-            info: "The Flu is a contagious respiratory illness caused by flu viruses. It typically causes symptoms like fever, cough, sore throat, body aches, fatigue, and congestion. The flu spreads through droplets from coughs or sneezes, and it can lead to serious complications, especially in young children, the elderly, and those with weakened immune systems. Vaccination is the primary method of prevention.",
+            info: "The flu is a highly contagious respiratory illness that can cause fever, chills, body aches, and fatigue. Annual vaccination is an effective way to prevent it, and prompt medical care can help manage severe cases.",
             symptoms: ['fever', 'chills', 'muscle aches'],
             medications: [
                 { name: "Oseltamivir (Tamiflu)", dosage: "75 mg twice daily for 5 days", ageRange: [13, 100], allergies: [] },
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 { name: "Baloxavir marboxil (Xofluza)", dosage: "40 mg single dose for those between 40-80 kg,  and 80 mg single dose for those with a weight higher than 80 kg", ageRange: [12, 100], allergies: [] },
                 { name: "Peramivir (Rapivab)", dosage: "600 mg IV single dose", ageRange: [18, 100], allergies: [] }
             ],
-            recommendations: "For symptom relief, over-the-counter medications like acetaminophen or ibuprofen can help manage fever and pain. Rest, stay hydrated, and avoid close contact with others to prevent spreading the virus.",
+            recommendations: "For symptom relief, over-the-counter medications like Tylenol or Advil can help manage fever and pain. Rest, stay hydrated, and avoid close contact with others to prevent spreading the virus.",
             weight: 0
         },
         {
@@ -324,17 +324,6 @@ document.addEventListener('DOMContentLoaded', function() {
             weight: 0
         },
         {
-            name: "Osteoarthritis",
-            info: "Osteoarthritis is the most common form of arthritis, affecting millions of people worldwide. It occurs when the protective cartilage that cushions the ends of your bones wears down over time.",
-            symptoms: ['joint pain', 'stiffness', 'loss of flexibility'],
-            medications: [
-                { name: "NSAIDs", dosage: "As per package instructions", ageRange: [18, 100], allergies: [] },
-                { name: "Acetaminophen", dosage: "As per package instructions", ageRange: [18, 100], allergies: [] }
-            ],
-            recommendations: "Use over-the-counter pain relievers as directed. Maintain a healthy weight and stay active to manage symptoms.",
-            weight: 0
-        },
-        {
             name: "Anemia",
             info: "Anemia is a condition in which you lack enough healthy red blood cells to carry adequate oxygen to your body's tissues. It can cause fatigue, weakness, and pale skin.",
             symptoms: ['fatigue', 'weakness', 'pale skin'],
@@ -477,7 +466,74 @@ document.addEventListener('DOMContentLoaded', function() {
             ],
             recommendations: "Seek doctor's advice for vaccination. Avoid mosquito bites by using insect repellent and wearing protective clothing.",
             weight: 0
+        },
+        {
+            name: "Alzheimer's Disease",
+            info: "Alzheimer's disease is a progressive neurological disorder that causes brain cells to degenerate and die, leading to memory loss and cognitive decline.",
+            symptoms: ['memory loss', 'confusion', 'difficulty completing familiar tasks', 'poor judgment'],
+            medications: [
+                { name: "Donepezil (Aricept)", dosage: "5 mg once daily.", ageRange: [0, 100], allergies: [] },
+                { name: "Memantine (Namenda)", dosage: "10 mg twice daily.", ageRange: [0, 100], allergies: [] },
+            ],
+            recommendations: "Engage in mental exercises, maintain a healthy diet, and seek support from caregivers.",
+            weight: 0
+        },
+        {
+            name: "Parkinson's Disease",
+            info: "Parkinson's disease is a progressive nervous system disorder that affects movement.",
+            symptoms: ['tremors', 'slowed movement', 'rigid muscles', 'impaired posture and balance'],
+            medications: [
+                { name: "Levodopa-Carbidopa (Sinemet)", dosage: "25/100 mg three times daily.", ageRange: [0, 100], allergies: [] },
+                { name: "Ropinirole (Requip)", dosage: "0.25 mg three times daily.", ageRange: [0, 100], allergies: [] },
+            ],
+            recommendations: "Regular exercise and physical therapy to maintain mobility and balance.",
+            weight: 0
+        },
+        {
+            name: "Rheumatoid Arthritis",
+            info: "Rheumatoid arthritis is a chronic inflammatory disorder that can affect more than just your joints.",
+            symptoms: ['tender, warm, swollen joints', 'joint stiffness', 'fatigue', 'fever'],
+            medications: [
+                { name: "Methotrexate", dosage: "7.5 mg once weekly.", ageRange: [0, 100], allergies: [] },
+                { name: "Adalimumab (Humira)", dosage: "40 mg every other week.", ageRange: [0, 100], allergies: [] },
+            ],
+            recommendations: "Physical activity, joint care, and anti-inflammatory diet.",
+            weight: 0
+        },
+        {
+            name: "Osteoporosis",
+            info: "Osteoporosis is a condition in which bones become weak and brittle.",
+            symptoms: ['back pain', 'loss of height over time', 'stooped posture', 'bone fractures'],
+            medications: [
+                { name: "Alendronate (Fosamax)", dosage: "70 mg once weekly.", ageRange: [0, 100], allergies: [] },
+                { name: "Raloxifene (Evista)", dosage: "60 mg once daily.", ageRange: [0, 100], allergies: [] },
+            ],
+            recommendations: "Calcium and vitamin D supplementation, weight-bearing exercises.",
+            weight: 0
+        },
+        {
+            name: "Chronic Obstructive Pulmonary Disease (COPD)",
+            info: "COPD is a chronic inflammatory lung disease that obstructs airflow from the lungs.",
+            symptoms: ['shortness of breath', 'wheezing', 'chronic cough', 'frequent respiratory infections'],
+            medications: [
+                { name: "Tiotropium (Spiriva)", dosage: "18 mcg inhaled once daily.", ageRange: [0, 100], allergies: [] },
+                { name: "Salmeterol (Serevent)", dosage: "50 mcg inhaled twice daily.", ageRange: [0, 100], allergies: [] },
+            ],
+            recommendations: "Avoid smoking, pulmonary rehabilitation, and flu vaccination.",
+            weight: 0
+        },
+        {
+            name: "Epilepsy",
+            info: "Epilepsy is a central nervous system disorder in which brain activity becomes abnormal, causing seizures.",
+            symptoms: ['recurrent seizures', 'temporary confusion', 'loss of consciousness', 'anxiety'],
+            medications: [
+                { name: "Valproic Acid (Depakote)", dosage: "500 mg twice daily.", ageRange: [0, 100], allergies: [] },
+                { name: "Lamotrigine (Lamictal)", dosage: "100 mg once daily.", ageRange: [0, 100], allergies: [] },
+            ],
+            recommendations: "Medication adherence, seizure precautions, and regular follow-ups with a neurologist.",
+            weight: 0
         }
+        
     ];
 
     // Calculate the weight for each condition based on the provided symptoms
@@ -488,7 +544,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Determine the condition with the highest weight
-    let diagnosisResult = "Based on your symptoms, we have diagnosed you with ";
+    let diagnosisResult = "Based on your symptoms, we believe you may have ";
     const maxWeightCondition = conditions.reduce((prev, current) => (prev.weight > current.weight) ? prev : current);
 
     if (maxWeightCondition.weight > 0) {
