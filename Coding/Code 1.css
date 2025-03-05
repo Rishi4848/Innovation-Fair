@@ -75,6 +75,7 @@ nav ul li i {
     color: white;
     text-align: center;
     padding: 1rem 1rem; /* Reduce padding to move content higher */
+    margin-top:-150;
 }
 
 /* Button styling */
