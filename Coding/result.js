@@ -1,242 +1,273 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const symptoms = urlParams.get('symptoms').toLowerCase().split(',').map(s => s.trim());
-    const age = parseInt(urlParams.get('age'), 10);
-    const allergies = urlParams.get('allergies').toLowerCase().split(',').map(a => a.trim());
+document.addEventListener('DOMContentLoaded', function() { // Contact a doctor
+    const urlParams = new URLSearchParams(window.location.search); // Contact a doctor
+    const symptoms = urlParams.get('symptoms') ? urlParams.get('symptoms').toLowerCase().split(',').map(s => s.trim()) : []; // Contact a doctor
+    const age = urlParams.get('age') ? parseInt(urlParams.get('age'), 10) : null; // Contact a doctor
+    const allergies = urlParams.get('allergies') ? urlParams.get('allergies').toLowerCase().split(',').map(a => a.trim()) : []; // Contact a doctor
 
-    const conditions = [
-        {
-            name: "Influenza (Flu)",
-            info: "Influenza, commonly known as the flu, is a contagious respiratory illness caused by influenza viruses. It can cause mild to severe illness, and at times can lead to death. The best way to prevent the flu is by getting a flu vaccine each year.",
-            symptoms: ['fever', 'chills', 'muscle aches'],
-            medications: [
-                { name: "Oseltamivir (Tamiflu)", dosage: "75 mg twice daily for 5 days", ageRange: [13, 100], allergies: [] },
-                { name: "Zanamivir (Relenza)", dosage: "10 mg (two inhalations) twice daily for 5 days. Please avoid taking this medication if a milk allergy is present.", ageRange: [7, 100], allergies: ["milk"] },
-                { name: "Baloxavir marboxil (Xofluza)", dosage: "40 mg single dose for those between 40-80 kg,  and 80 mg single dose for those with a weight higher than 80 kg", ageRange: [12, 100], allergies: [] },
-                { name: "Peramivir (Rapivab)", dosage: "600 mg IV single dose", ageRange: [18, 100], allergies: [] }
-            ],
-            recommendations: "For symptom relief, over-the-counter medications like Tylenol or Advil can help manage fever and pain. Rest, stay hydrated, and avoid close contact with others to prevent spreading the virus.",
-            weight: 0
-        },
-        {
-            name: "Common Cold",
-            info: "The Common Cold is a viral infection, typically caused by rhinoviruses, affecting the upper respiratory system. It spreads easily through droplets from coughing or sneezing. Symptoms often include a runny or stuffy nose, sore throat, cough, mild headache, sneezing, and sometimes a low-grade fever. Cold symptoms usually last about 7 to 10 days, though they can occasionally linger longer, especially in those with weakened immune systems.",
-            symptoms: ['runny nose', 'sneezing', 'mild headache'],
-            medications: [
-                { name: "Decongestants", dosage: "As per package instructions", ageRange: [12, 100], allergies: [] },
-                { name: "Antihistamines", dosage: "As per package instructions", ageRange: [12, 100], allergies: [] },
-                { name: "Pain relievers", dosage: "As per package instructions", ageRange: [12, 100], allergies: [] }
-            ],
-            recommendations: "Rest, stay hydrated, and use over-the-counter medications like decongestants, antihistamines, and pain relievers to manage symptoms. Avoid close contact with others to prevent spreading the virus.",
-            weight: 0
-        },
-        {
-            name: "Norovirus (Stomach Flu)",
-            info: "Norovirus is a highly contagious viral infection that causes gastroenteritis, inflammation of the stomach and intestines. It spreads through contaminated food, water, surfaces, or close contact with infected individuals. Symptoms include nausea, vomiting, diarrhea, stomach cramps, and sometimes low-grade fever or headache. Symptoms usually last 1 to 3 days but can be severe, especially in young children, the elderly, and those with weakened immune systems.",
-            symptoms: ['nausea', 'vomiting', 'diarrhea'],
-            medications: [
-                { name: "Oral rehydration solutions", dosage: "As needed", ageRange: [0, 100], allergies: [] },
-                { name: "Clear fluids", dosage: "As needed", ageRange: [0, 100], allergies: [] }
-            ],
-            recommendations: "Stay hydrated to prevent dehydration. Oral rehydration solutions or clear fluids are recommended. Avoid solid foods until vomiting and diarrhea subside. Rest and practice good hygiene, such as frequent hand washing and disinfecting surfaces.",
-            weight: 0
-        },
-        {
-            name: "Strep Throat",
-            info: "Strep throat is a bacterial infection caused by Group A Streptococcus bacteria. It causes a sore, scratchy throat and can lead to complications if untreated. Symptoms include sudden severe sore throat, pain when swallowing, red and swollen tonsils, and sometimes fever.",
-            symptoms: ['severe sore throat', 'pain when swallowing', 'red swollen tonsils'],
-            medications: [
-                { name: "Penicillin", dosage: "250 mg four times daily for 10 days. Please avoid taking this medication if a Penicillin allergy is present.", ageRange: [0, 100], allergies: ["penicillin"] },
-                { name: "Amoxicillin", dosage: "500 mg three times daily for 10 days", ageRange: [0, 100], allergies: [] },
-                { name: "Cephalexin", dosage: "500 mg twice daily for 10 days. Please avoid taking this medication if a Cephalosporins allergy is present.", ageRange: [0, 100], allergies: ["cephalosporins"] }
-            ],
-            recommendations: "Take prescribed antibiotics as directed. Rest, stay hydrated, and use over-the-counter pain relievers to manage symptoms. Avoid close contact with others to prevent spreading the infection.",
-            weight: 0
-        },
-        {
-            name: "Chickenpox",
-            info: "Chickenpox is a highly contagious viral infection caused by the varicella-zoster virus. It causes an itchy rash with red spots and blisters all over the body. Other symptoms include fever, tiredness, and loss of appetite.",
-            symptoms: ['itchy rash', 'red spots', 'blisters'],
-            medications: [
-                { name: "Acyclovir", dosage: "800 mg five times daily for 5 days", ageRange: [2, 100], allergies: [] },
-                { name: "Valacyclovir", dosage: "1000 mg three times daily for 7 days", ageRange: [12, 100], allergies: [] }
-            ],
-            recommendations: "Rest, stay hydrated, and use over-the-counter antihistamines to relieve itching. Avoid scratching the rash to prevent infection. Vaccination is the primary method of prevention.",
-            weight: 0
-        },
-        {
-            name: "Measles",
-            info: "Measles is a highly contagious viral infection that causes a red rash, fever, cough, runny nose, and inflamed eyes. It spreads through respiratory droplets from coughs or sneezes. Measles can lead to serious complications, especially in young children and those with weakened immune systems.",
-            symptoms: ['red rash', 'fever', 'cough'],
-            medications: [
-                { name: "Vitamin A", dosage: "200,000 IU once daily for 2 days", ageRange: [0, 100], allergies: [] }
-            ],
-            recommendations: "Rest, stay hydrated, and use over-the-counter medications to manage fever and pain. Vaccination is the primary method of prevention.",
-            weight: 0
-        },
-        {
-            name: "Mumps",
-            info: "Mumps is a viral infection that primarily affects the salivary glands, causing swelling and pain. Other symptoms include fever, headache, muscle aches, and fatigue. Mumps spreads through respiratory droplets from coughs or sneezes.",
-            symptoms: ['swollen salivary glands', 'painful chewing', 'fever'],
-            medications: [
-                { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] }
-            ],
-            recommendations: "Rest, stay hydrated, and use over-the-counter pain relievers to manage symptoms. Vaccination is the primary method of prevention.",
-            weight: 0
-        },
-        {
-            name: "Rubella (German Measles)",
-            info: "Rubella is a contagious viral infection that causes a red rash, fever, and swollen lymph nodes. It spreads through respiratory droplets from coughs or sneezes. Rubella can cause serious complications in pregnant women, leading to birth defects.",
-            symptoms: ['red rash', 'swollen lymph nodes', 'fever'],
-            medications: [
-                { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] }
-            ],
-            recommendations: "Rest, stay hydrated, and use over-the-counter pain relievers to manage symptoms. Vaccination is the primary method of prevention.",
-            weight: 0
-        },
-        {
-            name: "Pertussis (Whooping Cough)",
-            info: "Pertussis is a highly contagious bacterial infection that causes severe coughing fits followed by a whooping sound. It spreads through respiratory droplets from coughs or sneezes. Pertussis can lead to serious complications, especially in young children and those with weakened immune systems.",
-            symptoms: ['severe coughing fits', 'whooping sound', 'vomiting after coughing'],
-            medications: [
-                { name: "Azithromycin", dosage: "500 mg on day 1, then 250 mg once daily for 4 days", ageRange: [0, 100], allergies: [] },
-                { name: "Clarithromycin", dosage: "500 mg twice daily for 7 days", ageRange: [0, 100], allergies: [] }
-            ],
-            recommendations: "Take prescribed antibiotics as directed. Rest, stay hydrated, and use over-the-counter medications to manage symptoms. Vaccination is the primary method of prevention.",
-            weight: 0
-        },
-        {
-            name: "Diphtheria",
-            info: "Diphtheria is a serious bacterial infection that affects the mucous membranes of the throat and nose. It causes a thick, gray coating in the throat, leading to difficulty breathing, sore throat, and swollen glands. Diphtheria spreads through respiratory droplets from coughs or sneezes.",
-            symptoms: ['thick gray coating in throat', 'difficulty breathing', 'swollen glands'],
-            medications: [
-                { name: "Diphtheria antitoxin", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] },
-                { name: "Erythromycin", dosage: "500 mg four times daily for 14 days", ageRange: [0, 100], allergies: [] }
-            ],
-            recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and avoid close contact with others to prevent spreading the infection. Vaccination is the primary method of prevention.",
-            weight: 0
-        },
-        {
-            name: "Tetanus",
-            info: "Tetanus is a bacterial infection caused by Clostridium Tetani. It affects the nervous system, leading to muscle stiffness and spasms. Tetanus can enter the body through cuts or wounds contaminated with the bacteria. Symptoms include jaw cramping, muscle stiffness, and difficulty swallowing.",
-            symptoms: ['jaw cramping', 'muscle stiffness', 'difficulty swallowing'],
-            medications: [
-                { name: "Tetanus immune globulin", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] },
-                { name: "Metronidazole", dosage: "500 mg every 6 hours for 7-10 days", ageRange: [0, 100], allergies: [] }
-            ],
-            recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and practice good wound care to prevent infection. Vaccination is the primary method of prevention.",
-            weight: 0
-        },
-        {
-            name: "Hepatitis A",
-            info: "Hepatitis A is a viral infection that affects the liver, causing inflammation. It spreads through contaminated food or water. Symptoms include jaundice, fatigue, abdominal pain, and loss of appetite.",
-            symptoms: ['jaundice', 'abdominal pain', 'loss of appetite'],
-            medications: [
-                { name: "Supportive care", dosage: "As needed", ageRange: [0, 100], allergies: [] }
-            ],
-            recommendations: "Rest, stay hydrated, and avoid alcohol to reduce liver strain. Practice good hygiene and avoid contaminated food or water. Vaccination is the primary method of prevention.",
-            weight: 0
-        },
-        {
-            name: "Hepatitis B",
-            info: "Hepatitis B is a viral infection that affects the liver, causing inflammation. It spreads through contact with infected blood or body fluids. Symptoms include jaundice, fatigue, abdominal pain, and dark urine.",
-            symptoms: ['dark urine', 'fatigue', 'jaundice'],
-            medications: [
-                { name: "Entecavir", dosage: "0.5 mg once daily", ageRange: [0, 100], allergies: [] },
-                { name: "Tenofovir", dosage: "300 mg once daily", ageRange: [0, 100], allergies: [] }
-            ],
-            recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and avoid alcohol to reduce liver strain. Practice safe sex and avoid sharing needles. Vaccination is the primary method of prevention.",
-            weight: 0
-        },
-        {
-            name: "Hepatitis C",
-            info: "Hepatitis C is a viral infection that affects the liver, causing inflammation. It spreads through contact with infected blood. Symptoms include jaundice, fatigue, abdominal pain, and dark urine.",
-            symptoms: ['dark urine', 'fatigue', 'jaundice'],
-            medications: [
-                { name: "Sofosbuvir", dosage: "400 mg once daily", ageRange: [0, 100], allergies: [] },
-                { name: "Ledipasvir", dosage: "90 mg once daily", ageRange: [0, 100], allergies: [] }
-            ],
-            recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and avoid alcohol to reduce liver strain. Practice safe sex and avoid sharing needles.",
-            weight: 0
-        },
-        {
-            name: "Irritable Bowel Syndrome (IBS)",
-            info: "IBS is a common disorder that affects the large intestine. Symptoms include cramping, abdominal pain, bloating, gas, and diarrhea or constipation, or both. IBS is a chronic condition that you'll need to manage long term.",
-            symptoms: ['abdominal pain', 'bloating', 'gas'],
-            medications: [
-                { name: "Loperamide", dosage: "2 mg after each loose stool", ageRange: [12, 100], allergies: [] },
-                { name: "Dicyclomine", dosage: "20 mg four times daily", ageRange: [12, 100], allergies: [] }
-            ],
-            recommendations: "Manage stress, make dietary changes, and use medications as prescribed. Regular exercise and adequate sleep can also help manage symptoms.",
-            weight: 0
-        },
-        {
-            name: "Gastritis",
-            info: "Gastritis is an inflammation, irritation, or erosion of the lining of the stomach. It can occur suddenly (acute) or gradually (chronic). Symptoms include upper abdominal pain, nausea, and bloating.",
-            symptoms: ['upper abdominal pain', 'nausea', 'bloating'],
-            medications: [
-                { name: "Antacids", dosage: "As per package instructions", ageRange: [12, 100], allergies: [] },
-                { name: "Proton pump inhibitors", dosage: "As per doctor's instructions", ageRange: [12, 100], allergies: [] }
-            ],
-            recommendations: "Avoid hot and spicy foods, alcohol, and smoking. Eat smaller, more frequent meals and manage stress. ",
-            weight: 0
-        },
-        {
-            name: "Migraine",
-            info: "A migraine is a headache that can cause severe throbbing pain or a pulsing sensation, usually on one side of the head. It's often accompanied by nausea, vomiting, and extreme sensitivity to light and sound.",
-            symptoms: ['severe headache', 'nausea', 'sensitivity to light'],
-            medications: [
-                { name: "Sumatriptan", dosage: "50-100 mg at onset of symptoms", ageRange: [18, 100], allergies: [] },
-                { name: "Rizatriptan", dosage: "10 mg at onset of symptoms", ageRange: [18, 100], allergies: [] }
-            ],
-            recommendations: "Rest in a quiet, dark room. Apply a cool cloth or ice pack to your forehead. Stay hydrated and avoid known migraine triggers.",
-            weight: 0
-        },
-        {
-            name: "Appendicitis",
-            info: "Appendicitis is an inflammation of the appendix, a small tube-shaped pouch attached to your large intestine. Symptoms include sudden pain that begins on the right side of the lower abdomen, nausea, and loss of appetite.",
-            symptoms: ['right lower abdominal pain', 'nausea', 'loss of appetite'],
-            medications: [
-                { name: "Antibiotics", dosage: "As per doctor's instructions.", ageRange: [0, 100], allergies: [] }
-            ],
-            recommendations: "Seek immediate medical attention. Surgery is often required to remove the inflamed appendix.",
-            weight: 0
-        },
-        {
-            name: "Kidney Stones",
-            info: "Kidney stones are hard deposits made of minerals and salts that form inside your kidneys. Symptoms include severe pain in the side and back, pain that radiates to the lower abdomen and groin, and pain that comes in waves and fluctuates in intensity.",
-            symptoms: ['severe side pain', 'pain radiating to lower abdomen', 'pain in waves'],
-            medications: [
-                { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] },
-                { name: "Alpha blockers", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
-            ],
-            recommendations: "Drink plenty of water to help pass the stones. Follow your doctor's recommendations for pain management and treatment.",
-            weight: 0
-        },
-        {
-            name: "Pancreatitis",
-            info: "Pancreatitis is inflammation of the pancreas. It can occur as acute pancreatitis, which means it appears suddenly and lasts for days, or as chronic pancreatitis, which occurs over many years. Symptoms include upper abdominal pain, abdominal pain that radiates to your back, and tenderness when touching the abdomen.",
-            symptoms: ['upper abdominal pain', 'pain radiating to back', 'abdominal tenderness'],
-            medications: [
-                { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] },
-                { name: "Enzyme supplements", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
-            ],
-            recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and avoid alcohol. Follow a low-fat diet.",
-            weight: 0
-        },
-        {
-            name: "Pneumonia",
-            info: "Pneumonia is an infection that inflames the air sacs in one or both lungs. The air sacs may fill with fluid or pus, causing cough with phlegm or pus, fever, chills, and difficulty breathing.",
-            symptoms: ['chest pain', 'cough with phlegm', 'shortness of breath'],
-            medications: [
-                { name: "Amoxicillin", dosage: "500 mg three times daily for 7-10 days", ageRange: [0, 100], allergies: [] },
-                { name: "Clarithromycin", dosage: "500 mg twice daily for 7-10 days", ageRange: [0, 100], allergies: [] }
-            ],
-            recommendations: "Take prescribed antibiotics as directed. Rest, stay hydrated, and use over-the-counter medications to manage fever and pain.",
-            weight: 0
-        },
-        {
-            name: "Bronchitis",
+    const conditions = [ {
+        name: "Flu",
+        info: "The flu is a common illness that makes you feel very sick with fever, chills, and muscle aches. It's best to get a flu shot every year to avoid it.",
+        symptoms: ['fever', 'chills', 'muscle aches'],
+        medications: [
+            { name: "Tamiflu", dosage: "Take 75 mg twice daily for 5 days", ageRange: [13, 100], allergies: [], link: "https://www.webmd.com/drugs/2/drug-17700/tamiflu-oral/details" },
+            { name: "Relenza", dosage: "Inhale 10 mg twice daily for 5 days. Avoid if you have a milk allergy.", ageRange: [7, 100], allergies: ["milk"], link: "https://www.webmd.com/drugs/2/drug-17701/relenza-inhalation/details" },
+            { name: "Xofluza", dosage: "Take 40 mg once if you weigh 40-80 kg, or 80 mg once if you weigh more than 80 kg", ageRange: [12, 100], allergies: [], link: "https://www.webmd.com/drugs/2/drug-17702/xofluza-oral/details" },
+            { name: "Rapivab", dosage: "600 mg IV once", ageRange: [18, 100], allergies: [], link: "https://www.webmd.com/drugs/2/drug-17703/rapivab-iv/details" }
+        ],
+        recommendations: "Rest, drink plenty of fluids, and take over-the-counter meds like Tylenol or Advil to feel better. Stay away from others to avoid spreading it.",
+        weight: 0
+    },
+    {
+        name: "Common Cold",
+        info: "The common cold is a mild illness that causes a runny nose, sneezing, and a mild headache. It usually goes away on its own in about a week.",
+        symptoms: ['runny nose', 'sneezing', 'mild headache'],
+        medications: [
+            { name: "Decongestants", dosage: "Follow the instructions on the package", ageRange: [12, 100], allergies: [], link: "https://www.webmd.com/drugs/2/drug-17704/decongestants-oral/details" },
+            { name: "Antihistamines", dosage: "Follow the instructions on the package", ageRange: [12, 100], allergies: [], link: "https://www.webmd.com/drugs/2/drug-17705/antihistamines-oral/details" },
+            { name: "Pain relievers", dosage: "Follow the instructions on the package", ageRange: [12, 100], allergies: [], link: "https://www.webmd.com/drugs/2/drug-17706/pain-relievers-oral/details" }
+        ],
+        recommendations: "Rest, drink lots of fluids, and use over-the-counter meds to feel better. Avoid close contact with others to prevent spreading it.",
+        weight: 0
+    },
+    {
+        name: "Norovirus (Stomach Flu)",
+        info: "Norovirus is a highly contagious viral infection that causes gastroenteritis, inflammation of the stomach and intestines. It spreads through contaminated food, water, surfaces, or close contact with infected individuals. Symptoms include nausea, vomiting, diarrhea, stomach cramps, and sometimes low-grade fever or headache. Symptoms usually last 1 to 3 days but can be severe, especially in young children, the elderly, and those with weakened immune systems.",
+        symptoms: ['nausea', 'vomiting', 'diarrhea'],
+        medications: [
+            { name: "Oral rehydration solutions", dosage: "As needed", ageRange: [0, 100], allergies: [] },
+            { name: "Clear fluids", dosage: "As needed", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Stay hydrated to prevent dehydration. Oral rehydration solutions or clear fluids are recommended. Avoid solid foods until vomiting and diarrhea subside. Rest and practice good hygiene, such as frequent hand washing and disinfecting surfaces.",
+        weight: 0
+    },
+    {
+        name: "Strep Throat",
+        info: "Strep throat is a bacterial infection caused by Group A Streptococcus bacteria. It causes a sore, scratchy throat and can lead to complications if untreated. Symptoms include sudden severe sore throat, pain when swallowing, red and swollen tonsils, and sometimes fever.",
+        symptoms: ['severe sore throat', 'pain when swallowing', 'red swollen tonsils'],
+        medications: [
+            { name: "Penicillin", dosage: "250 mg four times daily for 10 days. Please avoid taking this medication if a Penicillin allergy is present.", ageRange: [0, 100], allergies: ["penicillin"] },
+            { name: "Amoxicillin", dosage: "500 mg three times daily for 10 days", ageRange: [0, 100], allergies: [] },
+            { name: "Cephalexin", dosage: "500 mg twice daily for 10 days. Please avoid taking this medication if a Cephalosporins allergy is present.", ageRange: [0, 100], allergies: ["cephalosporins"] }
+        ],
+        recommendations: "Take prescribed antibiotics as directed. Rest, stay hydrated, and use over-the-counter pain relievers to manage symptoms. Avoid close contact with others to prevent spreading the infection.",
+        weight: 0
+    },
+    {
+        name: "Chickenpox",
+        info: "Chickenpox is a highly contagious viral infection caused by the varicella-zoster virus. It causes an itchy rash with red spots and blisters all over the body. Other symptoms include fever, tiredness, and loss of appetite.",
+        symptoms: ['itchy rash', 'red spots', 'blisters'],
+        medications: [
+            { name: "Acyclovir", dosage: "800 mg five times daily for 5 days", ageRange: [2, 100], allergies: [] },
+            { name: "Valacyclovir", dosage: "1000 mg three times daily for 7 days", ageRange: [12, 100], allergies: [] }
+        ],
+        recommendations: "Rest, stay hydrated, and use over-the-counter antihistamines to relieve itching. Avoid scratching the rash to prevent infection. Vaccination is the primary method of prevention.",
+        weight: 0
+    },
+    {
+        name: "Measles",
+        info: "Measles is a highly contagious viral infection that causes a red rash, fever, cough, runny nose, and inflamed eyes. It spreads through respiratory droplets from coughs or sneezes. Measles can lead to serious complications, especially in young children and those with weakened immune systems.",
+        symptoms: ['red rash', 'fever', 'cough'],
+        medications: [
+            { name: "Vitamin A", dosage: "200,000 IU once daily for 2 days", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Rest, stay hydrated, and use over-the-counter medications to manage fever and pain. Vaccination is the primary method of prevention.",
+        weight: 0
+    },
+    {
+        name: "Mumps",
+        info: "Mumps is a viral infection that primarily affects the salivary glands, causing swelling and pain. Other symptoms include fever, headache, muscle aches, and fatigue. Mumps spreads through respiratory droplets from coughs or sneezes.",
+        symptoms: ['swollen salivary glands', 'painful chewing', 'fever'],
+        medications: [
+            { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Rest, stay hydrated, and use over-the-counter pain relievers to manage symptoms. Vaccination is the primary method of prevention.",
+        weight: 0
+    },
+    {
+        name: "Rubella (German Measles)",
+        info: "Rubella is a contagious viral infection that causes a red rash, fever, and swollen lymph nodes. It spreads through respiratory droplets from coughs or sneezes. Rubella can cause serious complications in pregnant women, leading to birth defects.",
+        symptoms: ['red rash', 'swollen lymph nodes', 'fever'],
+        medications: [
+            { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Rest, stay hydrated, and use over-the-counter pain relievers to manage symptoms. Vaccination is the primary method of prevention.",
+        weight: 0
+    },
+    {
+        name: "Pertussis (Whooping Cough)",
+        info: "Pertussis also known as the Whooping Cough is a highly contagious bacterial infection that causes severe coughing fits followed by a whooping sound. It spreads through respiratory droplets from coughs or sneezes. Pertussis can lead to serious complications, especially in young children and those with weakened immune systems.",
+        symptoms: ['severe coughing fits', 'whooping sound', 'vomiting after coughing'],
+        medications: [
+            { name: "Azithromycin", dosage: "500 mg on day 1, then 250 mg once daily for 4 days", ageRange: [0, 100], allergies: [] },
+            { name: "Clarithromycin", dosage: "500 mg twice daily for 7 days", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Take prescribed antibiotics as directed. Rest, stay hydrated, and use over-the-counter medications to manage symptoms. Vaccination is the primary method of prevention.",
+        weight: 0
+    },
+    {
+        name: "Diphtheria",
+        info: "Diphtheria is a serious bacterial infection that affects the mucous membranes of the throat and nose. It causes a thick, gray coating in the throat, leading to difficulty breathing, sore throat, and swollen glands. Diphtheria spreads through respiratory droplets from coughs or sneezes.",
+        symptoms: ['thick gray coating in throat', 'difficulty breathing', 'swollen glands'],
+        medications: [
+            { name: "Diphtheria antitoxin", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] },
+            { name: "Erythromycin", dosage: "500 mg four times daily for 14 days", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and avoid close contact with others to prevent spreading the infection. Vaccination is the primary method of prevention.",
+        weight: 0
+    },
+    {
+        name: "COVID-19",
+        info: "COVID-19 is a viral infection that causes fever, cough, and trouble breathing. It spreads easily from person to person.",
+        symptoms: ['fever', 'cough', 'trouble breathing'],
+        medications: [
+            { name: "Rest and fluids", dosage: "As needed", ageRange: [0, 100], allergies: [] },
+            { name: "Over-the-counter meds", dosage: "Follow the instructions on the package", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Stay home, rest, and drink lots of fluids. Take over-the-counter meds to help with symptoms. Call a doctor if you have trouble breathing.",
+        weight: -2
+    },
+    {
+        name: "Tetanus",
+        info: "Tetanus is a bacterial infection caused by Clostridium Tetani. It affects the nervous system, leading to muscle stiffness and spasms. Tetanus can enter the body through cuts or wounds contaminated with the bacteria. Symptoms include jaw cramping, muscle stiffness, and difficulty swallowing.",
+        symptoms: ['jaw cramping', 'muscle stiffness', 'difficulty swallowing'],
+        medications: [
+            { name: "Tetanus immune globulin", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] },
+            { name: "Metronidazole", dosage: "500 mg every 6 hours for 7-10 days", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and practice good wound care to prevent infection. Vaccination is the primary method of prevention.",
+        weight: 0
+    },
+    {
+        name: "Hepatitis A",
+        info: "Hepatitis A is a viral infection that affects the liver, causing inflammation. It spreads through contaminated food or water. Symptoms include jaundice, fatigue, abdominal pain, and loss of appetite.",
+        symptoms: ['jaundice', 'abdominal pain', 'loss of appetite'],
+        medications: [
+            { name: "Supportive care", dosage: "As needed", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Rest, stay hydrated, and avoid alcohol to reduce liver strain. Practice good hygiene and avoid contaminated food or water. Vaccination is the primary method of prevention.",
+        weight: 0
+    },
+    {
+        name: "Hepatitis B",
+        info: "Hepatitis B is a viral infection that affects the liver, causing inflammation. It spreads through contact with infected blood or body fluids. Symptoms include jaundice, fatigue, abdominal pain, and dark urine.",
+        symptoms: ['dark urine', 'fatigue', 'jaundice'],
+        medications: [
+            { name: "Entecavir", dosage: "0.5 mg once daily", ageRange: [0, 100], allergies: [] },
+            { name: "Tenofovir", dosage: "300 mg once daily", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and avoid alcohol to reduce liver strain. Practice safe sex and avoid sharing needles. Vaccination is the primary method of prevention.",
+        weight: 0
+    },
+    {
+        name: "Hepatitis C",
+        info: "Hepatitis C is a viral infection that affects the liver, causing inflammation. It spreads through contact with infected blood. Symptoms include jaundice, fatigue, abdominal pain, and dark urine.",
+        symptoms: ['dark urine', 'fatigue', 'jaundice'],
+        medications: [
+            { name: "Sofosbuvir", dosage: "400 mg once daily", ageRange: [0, 100], allergies: [] },
+            { name: "Ledipasvir", dosage: "90 mg once daily", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and avoid alcohol to reduce liver strain. Practice safe sex and avoid sharing needles.",
+        weight: 0
+    },
+    {
+        name: "Irritable Bowel Syndrome (IBS)",
+        info: "IBS is a common disorder that affects the large intestine. Symptoms include cramping, abdominal pain, bloating, gas, and diarrhea or constipation, or both. IBS is a chronic condition that you'll need to manage long term.",
+        symptoms: ['abdominal pain', 'bloating', 'gas'],
+        medications: [
+            { name: "Loperamide", dosage: "2 mg after each loose stool", ageRange: [12, 100], allergies: [] },
+            { name: "Dicyclomine", dosage: "20 mg four times daily", ageRange: [12, 100], allergies: [] }
+        ],
+        recommendations: "Manage stress, make dietary changes, and use medications as prescribed. Regular exercise and adequate sleep can also help manage symptoms.",
+        weight: 0
+    },
+    {
+        name: "Gastritis",
+        info: "Gastritis is an inflammation, irritation, or erosion of the lining of the stomach. It can occur suddenly (acute) or gradually (chronic). Symptoms include upper abdominal pain, nausea, and bloating.",
+        symptoms: ['upper abdominal pain', 'nausea', 'bloating'],
+        medications: [
+            { name: "Antacids", dosage: "As per package instructions", ageRange: [12, 100], allergies: [] },
+            { name: "Proton pump inhibitors", dosage: "As per doctor's instructions", ageRange: [12, 100], allergies: [] }
+        ],
+        recommendations: "Avoid hot and spicy foods, alcohol, and smoking. Eat smaller, more frequent meals and manage stress. ",
+        weight: 0
+    },
+    {
+        name: "Migraine",
+        info: "A migraine is a headache that can cause severe throbbing pain or a pulsing sensation, usually on one side of the head. It's often accompanied by nausea, vomiting, and extreme sensitivity to light and sound.",
+        symptoms: ['severe headache', 'nausea', 'sensitivity to light'],
+        medications: [
+            { name: "Sumatriptan", dosage: "50-100 mg at onset of symptoms", ageRange: [18, 100], allergies: [] },
+            { name: "Rizatriptan", dosage: "10 mg at onset of symptoms", ageRange: [18, 100], allergies: [] }
+        ],
+        recommendations: "Rest in a quiet, dark room. Apply a cool cloth or ice pack to your forehead. Stay hydrated and avoid known migraine triggers.",
+        weight: 0
+    },
+    {
+        name: "Hay Fever",
+        info: "Hay fever also known as Allergic Rhinitis, is an allergy that causes sneezing, runny nose, and itchy eyes. It happens when you breathe in things like pollen or dust.",
+        symptoms: ['sneezing', 'runny nose', 'itchy eyes'],
+        medications: [
+            { name: "Antihistamines", dosage: "Take 10 mg once daily", ageRange: [12, 100], allergies: [], link: "https://www.webmd.com/drugs/2/drug-17705/antihistamines-oral/details" },
+            { name: "Nasal sprays", dosage: "Use 2 sprays in each nostril once daily", ageRange: [12, 100], allergies: [], link: "https://www.webmd.com/drugs/2/drug-17707/nasal-corticosteroids/details" }
+        ],
+        recommendations: "Stay away from things that cause your allergies. Keep windows closed during high pollen times, and use air purifiers. Take your meds as directed.",
+        weight: 0
+    },
+    {
+        name: "Pink Eye",
+        info: "Pink eye is an infection that makes your eyes red, itchy, and watery. It can also cause a sticky discharge.",
+        symptoms: ['red or pink eyes', 'itchy eyes', 'eye discharge'],
+        medications: [
+            { name: "Artificial tears", dosage: "Use as needed", ageRange: [0, 100], allergies: [], link: "https://www.webmd.com/drugs/2/drug-17708/artificial-tears/details" },
+            { name: "Antibiotic eye drops", dosage: "Use 1-2 drops in each eye every 4 hours", ageRange: [0, 100], allergies: [], link: "https://www.webmd.com/drugs/2/drug-17709/antibiotic-eye-drops/details" }
+        ],
+        recommendations: "Don't touch your eyes, wash your hands often, and use a clean towel each day. Take your meds as directed.",
+        weight: 0
+    },
+    {
+        name: "Appendicitis",
+        info: "Appendicitis is an inflammation of the appendix, a small tube-shaped pouch attached to your large intestine. Symptoms include sudden pain that begins on the right side of the lower abdomen, nausea, and loss of appetite.",
+        symptoms: ['right lower abdominal pain', 'nausea', 'loss of appetite'],
+        medications: [
+            { name: "Antibiotics", dosage: "As per doctor's instructions.", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Seek immediate medical attention. Surgery is often required to remove the inflamed appendix.",
+        weight: 0
+    },
+    {
+        name: "Kidney Stones",
+        info: "Kidney stones are hard deposits made of minerals and salts that form inside your kidneys. Symptoms include severe pain in the side and back, pain that radiates to the lower abdomen and groin, and pain that comes in waves and fluctuates in intensity.",
+        symptoms: ['severe side pain', 'pain radiating to lower abdomen', 'pain in waves'],
+        medications: [
+            { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] },
+            { name: "Alpha blockers", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Drink plenty of water to help pass the stones. Follow your doctor's recommendations for pain management and treatment.",
+        weight: 0
+    },
+    {
+        name: "Pancreatitis",
+        info: "Pancreatitis is inflammation of the pancreas. It can occur as acute pancreatitis, which means it appears suddenly and lasts for days, or as chronic pancreatitis, which occurs over many years. Symptoms include upper abdominal pain, abdominal pain that radiates to your back, and tenderness when touching the abdomen.",
+        symptoms: ['upper abdominal pain', 'pain radiating to back', 'abdominal tenderness'],
+        medications: [
+            { name: "Pain relievers", dosage: "As per package instructions", ageRange: [0, 100], allergies: [] },
+            { name: "Enzyme supplements", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and avoid alcohol. Follow a low-fat diet.",
+        weight: 0
+    },
+    {
+        name: "Pneumonia",
+        info: "Pneumonia is an infection that inflames the air sacs in one or both lungs. The air sacs may fill with fluid or pus, causing cough with phlegm or pus, fever, chills, and difficulty breathing. It can be caused by a variety of organisms, including bacteria, viruses, and fungi.",
+        symptoms: ['cough with phlegm', 'fever', 'difficulty breathing'],
+        medications: [
+            { name: "Antibiotics", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] },
+            { name: "Antivirals", dosage: "As per doctor's instructions", ageRange: [0, 100], allergies: [] }
+        ],
+        recommendations: "Take prescribed medications as directed. Rest, stay hydrated, and use over-the-counter medications to manage symptoms. Seek medical attention if symptoms worsen.",
+        weight: 0
+    },
+           { name: "Bronchitis",
             info: "Bronchitis is an inflammation of the lining of your bronchial tubes, which carry air to and from your lungs. It often causes coughing up thickened mucus, which can be discolored.",
             symptoms: ['persistent cough', 'mucus production', 'fatigue'],
             medications: [
@@ -541,11 +572,17 @@ document.addEventListener('DOMContentLoaded', function() {
         condition.weight = condition.symptoms.reduce((weight, symptom) => {
             return weight + (symptoms.includes(symptom) ? 1 : 0);
         }, 0);
+        console.log(`Condition: ${condition.name}, Weight: ${condition.weight}`);
     });
 
+    // Sort conditions by weight in descending order
+    conditions.sort((a, b) => b.weight - a.weight);
+
     // Determine the condition with the highest weight
-    let diagnosisResult = "Based on your symptoms, we believe you may have ";
-    const maxWeightCondition = conditions.reduce((prev, current) => (prev.weight > current.weight) ? prev : current);
+    let diagnosisResult = "Based on your symptoms, your condition closely aligns with ";
+    const maxWeightCondition = conditions[0];
+
+    console.log(`Max Weight Condition: ${maxWeightCondition.name}, Weight: ${maxWeightCondition.weight}`);
 
     if (maxWeightCondition.weight > 0) {
         diagnosisResult += maxWeightCondition.name;
@@ -559,20 +596,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let medicationInfo = "No suitable medications found for your age or allergies.";
         if (suitableMedications.length > 0) {
-            medicationInfo = suitableMedications.map(med => `${med.name}: ${med.dosage}`).join('<br>');
+            medicationInfo = suitableMedications.map(med => `<p><a href="${med.link}" target="_blank">${med.name}</a>: ${med.dosage}</p>`).join('');
         }
 
-        document.getElementById('diagnosisResult').innerHTML = `
-            <h2>Diagnosis & Information</h2>
+        // Get the next top two conditions
+        const nextTopConditions = conditions.slice(1, 3);
+        let nextTopConditionsInfo = "";
+        nextTopConditions.forEach(condition => {
+            nextTopConditionsInfo += `<p>${condition.name}: ${condition.info}</p>`;
+        });
+
+        document.getElementById('diagnosisResultContent').innerHTML = `
+            <h2>Most Likely Diagnosis</h2>
             <p>${diagnosisResult}</p>
             <p>${conditionInfo}</p>
+            <h2>Other Possible Conditions</h2>
+            ${nextTopConditionsInfo}
             <h2>Medications and Dosage</h2>
-            <p>${medicationInfo}</p>
+            ${medicationInfo}
             <h2>Personalized Recommendations</h2>
             <p>${conditionRecommendations}</p>
         `;
     } else {
-        document.getElementById('diagnosisResult').innerHTML = `
+        document.getElementById('diagnosisResultContent').innerHTML = `
             <h2>Diagnosis & Information</h2>
             <p>No condition matched your symptoms. Please consult a healthcare professional for further evaluation.</p>
         `;
