@@ -24,6 +24,7 @@
     <section id="diagnosis" class="diagnosis-section">
         <div class="container">
             <h2>Start Your Diagnosis</h2>
+            <h3>If you are experiencing serious symptoms, please do not use Vitalis and seek proper medical attention.</h3>
             <form id="diagnosisForm" onsubmit="handleSubmit(event)">
                 <label for="age">Age:</label>
                 <input type="number" id="age" name="age" required>
@@ -75,6 +76,7 @@
             const age = document.getElementById('age').value;
             const allergies = document.getElementById('allergies').value;
             const symptoms = document.getElementById('symptoms').value;
+            console.log(`Age: ${age}, Allergies: ${allergies}, Symptoms: ${symptoms}`);
             window.location.href = `result.html?symptoms=${encodeURIComponent(symptoms)}&age=${age}&allergies=${allergies}`;
         }
     </script>
