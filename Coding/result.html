@@ -4,9 +4,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diagnosis Result | Vitalis</title>
-    <link rel="stylesheet" href="Code 1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+    <style>
+        /* General Body Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* Ensure sections have transparent backgrounds to show the gradient */
+        section {
+            background: transparent;
+            padding: 1rem 0;
+            margin: 0;
+        }
+
+        /* Header */
+        header {
+            background: #ffffff;
+            padding: 1.5rem 0;
+            padding-bottom: 0; /* Remove bottom padding from header */
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            position: fixed; /* Set the navbar to fixed position */
+            top: 0; /* Position the navbar at the top of the page */
+            width: 100%; /* Full width */
+            overflow: hidden;
+            background-color: white; /* Set the background color */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a shadow */
+            z-index: 1000; /* Set the z-index to 1000 */
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #1d1d1f;
+            font-weight: 750;
+            padding: 1rem 0;
+            transition: color 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1.5rem;
+        }
+
+        nav ul li a:hover {
+            color: #0071e3;
+        }
+
+        nav ul li i {
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .logo {
+            display: block;
+            margin: 0.2rem auto; /* Adjust this value to move the logo up or down */
+            max-width: 330px;
+            height: auto;
+            padding: 1rem 0; /* Add padding to give some space around the logo */
+            margin-top: -5px; /* Move the logo up by 20 pixels, adjust as needed */
+        }
+
+        /* Result Section */
+        .result-section {
+            background-color: #ffffff;
+            padding: 3rem 1rem;
+            text-align: left;
+            margin-top: -70px; /* Adjust this value as needed */
+            width: 95%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .result-section h2 {
+            font-size: 2rem;
+            color: #1d1d1f;
+            margin-bottom: 2rem;
+        }
+
+        .result-section .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increased blur radius and spread radius */
+        }
+
+        .result-section p {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: left; /* Left-align the <p> tags */
+        }
+
+        .result-section button {
+            background-color: #0071e3;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+            display: block;
+            width: 100%;
+        }
+
+        .result-section button:hover {
+            background-color: #005bb5;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            width: 100%;
+            bottom: 0;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        footer a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animation for elements appearing on scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px); /* Increase the translateY value for a more noticeable effect */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Increase the transition duration */
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -21,15 +182,15 @@
         </nav>
         <img src="Green & Blue Modern Connected Medical Healthcare Logo.png" alt="Vitalis Logo" class="logo">
     </header>
-    <section id="result" class="result-section fade-in">
+    <section id="diagnosisResult" class="result-section">
         <div class="container">
-            <h2>Possible Conditions</h2>
-            <div id="diagnosisResult"></div>
+            <h2>Diagnosis Result</h2>
+            <h3>Please remember that this is not a medical diagnosis and if in doubt please seek advice from a medical professional.</h3>
+            <div id="diagnosisResultContent"></div>
+            <button onclick="window.location.href='diagnosis.html'">Back to Diagnosis</button>
         </div>
     </section>
     <footer>
-        <p>We always recommend consulting a healthcare professional for further evaluation and treatment.</p>
-        <br>
         <p>&copy; 2025 Vitalis - All rights reserved.</p>
     </footer>
     <script src="result.js"></script>
