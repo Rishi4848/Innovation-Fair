@@ -397,6 +397,10 @@ footer p {
     background-color: #005bb5;
 }
 
+h3{
+    text-align: center;
+}
+
 /* Result Section */
 .result-section {
     background-color: #ffffff;
@@ -458,28 +462,5 @@ footer p {
 .fade-in.visible {
     opacity: 1;
     transform: translateY(0);
-}
-
-/* Banner Styles */
-.banner {
-    background-color: #add8e6; /* Baby blue color */
-    color: #000; /* Black text */
-    padding: 1rem;
-    text-align: center;
-    font-size: 1.2rem;
-    border-bottom: 2px solid #007bff; /* Optional: Add a border for emphasis */
-}
-
-/* Condition Link Styles */
-.condition-link {
-    display: block;
-    margin: 1rem 0;
-    font-size: 1.2rem;
-    color: #007bff;
-    text-decoration: none;
-}
-
-.condition-link:hover {
-    text-decoration: underline;
 }
 
