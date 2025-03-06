@@ -1,7 +1,6 @@
 /* General Body Styles */
 /* Gradient background */
 body {
-    background: linear-gradient(to bottom, #add8e6, #ffffff);
     margin: 0;
     font-family: Arial, sans-serif;
 }
@@ -9,12 +8,16 @@ body {
 /* Ensure sections have transparent backgrounds to show the gradient */
 section {
     background: transparent;
+    padding: 1rem 0;
+    margin: 0;
 }
 
 /* Header */
 header {
     background: #ffffff;
     padding: 1.5rem 0;
+    padding-bottom: 0; /* Remove bottom padding from header */
+    text-align: center;
 }
 
 nav ul {
@@ -74,8 +77,9 @@ nav ul li i {
 .hero-section {
     color: white;
     text-align: center;
-    padding: 1rem 1rem; /* Reduce padding to move content higher */
-    margin-top:-150;
+    padding: 2rem 1rem; /* Reduce padding to move content higher */
+    margin-top: -125px; /* Move the hero section up */
+    padding-top: 0; /* Remove top padding from hero section */
 }
 
 /* Button styling */
@@ -115,37 +119,6 @@ nav ul li i {
     position: relative;
     margin-top: 20px;
     transition: transform 0.2s; /* Add transition for smooth scaling */
-}
-
-.hero-section .hero-content button .stars {
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-}
-
-.hero-section .hero-content button .stars i {
-    position: absolute;
-}
-
-.hero-section .hero-content button .stars i:nth-child(1) {
-    font-size: 24px;
-    color: teal;
-    top: -10px;
-    right: 30px;
-}
-
-.hero-section .hero-content button .stars i:nth-child(2) {
-    font-size: 20px;
-    color: #add8e6;
-    top: 0;
-    right: 10px;
-}
-
-.hero-section .hero-content button .stars i:nth-child(3) {
-    font-size: 16px;
-    color: white;
-    top: 10px;
-    right: -10px;
 }
 
 .hero-section .hero-content button:active {
@@ -217,6 +190,19 @@ nav ul li i {
 .feature p {
     font-size: 1rem;
     color: #333;
+}
+
+/* Add margin to space out the text */
+.features-section .feature h3,
+.features-section .feature p,
+.recommendations-section .recommendation h3,
+.recommendations-section .recommendation p {
+    margin-bottom: 1rem;
+}
+
+.features-section .feature h3,
+.features-section .feature p {
+    margin-bottom: 1.5rem; /* Increase margin to add more vertical spacing */
 }
 
 /* Recommendations Section */
@@ -462,4 +448,38 @@ footer p {
     background-color: #005bb5;
 }
 
+/* Animation for elements appearing on scroll */
+.fade-in {
+    opacity: 0;
+    transform: translateY(50px); /* Increase the translateY value for a more noticeable effect */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Increase the transition duration */
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Banner Styles */
+.banner {
+    background-color: #add8e6; /* Baby blue color */
+    color: #000; /* Black text */
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #007bff; /* Optional: Add a border for emphasis */
+}
+
+/* Condition Link Styles */
+.condition-link {
+    display: block;
+    margin: 1rem 0;
+    font-size: 1.2rem;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.condition-link:hover {
+    text-decoration: underline;
+}
 
