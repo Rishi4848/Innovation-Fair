@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const conditions = [
         {
             name: "Influenza (Flu)",
-            info: "The flu is a highly contagious respiratory illness that can cause fever, chills, body aches, and fatigue. Annual vaccination is an effective way to prevent it, and prompt medical care can help manage severe cases.",
+            info: "Influenza, commonly known as the flu, is a contagious respiratory illness caused by influenza viruses. It can cause mild to severe illness, and at times can lead to death. The best way to prevent the flu is by getting a flu vaccine each year.",
             symptoms: ['fever', 'chills', 'muscle aches'],
             medications: [
                 { name: "Oseltamivir (Tamiflu)", dosage: "75 mg twice daily for 5 days", ageRange: [13, 100], allergies: [] },
