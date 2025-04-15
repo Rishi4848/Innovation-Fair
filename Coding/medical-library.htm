@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Library</title>
+    <link rel="stylesheet" href="Code 1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Styles for the medical library */
+        .library-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 2rem;
+        }
+
+        .disease-box {
+            flex: 1 1 calc(33.333% - 1rem);
+            background-color: #ffffff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .disease-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .disease-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .disease-box p {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .disease-details {
+            display: none;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .disease-details h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .disease-details p {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 1.5rem;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
+                <li><a href="#about"><i class="fas fa-info-circle"></i>About Us</a></li>
+                <li><a href="#features"><i class="fas fa-cogs"></i>Features</a></li>
+                <li><a href="#medical-library"><i class="fas fa-book-medical"></i>Medical Library</a></li>
+                <li><a href="#FAQ"><i class="fas fa-question-circle"></i>FAQ</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i>Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="library" class="library-section">
+        <h1>Medical Library</h1>
+        <p>Click on a disease to learn more about it.</p>
+        <div class="library-container">
+            <!-- Example disease boxes -->
+            <div class="disease-box" onclick="showDetails('flu')">
+                <h3>Flu</h3>
+                <p>Common illness with fever and chills.</p>
+            </div>
+            <div class="disease-box" onclick="showDetails('common-cold')">
+                <h3>Common Cold</h3>
+                <p>Runny nose, sneezing, and mild headache.</p>
+            </div>
+            <div class="disease-box" onclick="showDetails('typhoid')">
+                <h3>Typhoid</h3>
+                <p>High fever and stomach pain.</p>
+            </div>
+            <!-- Add more disease boxes here -->
+        </div>
+    </section>
+
+    <section id="details" class="disease-details">
+        <h2 id="disease-title"></h2>
+        <p id="disease-info"></p>
+        <p id="disease-symptoms"></p>
+        <p id="disease-treatment"></p>
+        <a href="#" class="back-button" onclick="goBack()">Back to Library</a>
+    </section>
+
+    <script>
+        // Data for diseases
+        const diseases = {
+            flu: {
+                title: "Flu",
+                info: "The flu is a common illness that makes you feel very sick with fever, chills, and muscle aches.",
+                symptoms: "Symptoms: Fever, chills, muscle aches.",
+                treatment: "Treatment: Rest, drink fluids, and take over-the-counter medications like Tylenol or Advil."
+            },
+            "common-cold": {
+                title: "Common Cold",
+                info: "The common cold is a mild illness that causes a runny nose, sneezing, and a mild headache.",
+                symptoms: "Symptoms: Runny nose, sneezing, mild headache.",
+                treatment: "Treatment: Rest, drink fluids, and use over-the-counter medications."
+            },
+            typhoid: {
+                title: "Typhoid",
+                info: "Typhoid is a bacterial infection that can cause high fever, stomach pain, and feeling very tired.",
+                symptoms: "Symptoms: High fever, stomach pain, fatigue.",
+                treatment: "Treatment: Take prescribed antibiotics, drink plenty of water, and rest."
+            }
+            // Add more diseases here
+        };
+
+        // Function to show details of a disease
+        function showDetails(diseaseKey) {
+            const disease = diseases[diseaseKey];
+            if (disease) {
+                document.getElementById("disease-title").textContent = disease.title;
+                document.getElementById("disease-info").textContent = disease.info;
+                document.getElementById("disease-symptoms").textContent = disease.symptoms;
+                document.getElementById("disease-treatment").textContent = disease.treatment;
+
+                document.querySelector(".library-container").style.display = "none";
+                document.querySelector(".disease-details").style.display = "block";
+            }
+        }
+
+        // Function to go back to the library
+        function goBack() {
+            document.querySelector(".library-container").style.display = "flex";
+            document.querySelector(".disease-details").style.display = "none";
+        }
+    </script>
+</body>
+</html>
