@@ -14,6 +14,7 @@
                 <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
                 <li><a href="index.html#about"><i class="fas fa-info-circle"></i>About Us</a></li>
                 <li><a href="index.html#features"><i class="fas fa-cogs"></i>Features</a></li>
+                <li><a href="#medical-library"><i class="fas fa-book-medical"></i>Medical Library</a></li>
                 <li><a href="index.html#FAQ"><i class="fas fa-question-circle"></i>FAQ</a></li>
                 <li><a href="index.html#contact"><i class="fas fa-envelope"></i>Contact Us</a></li>
             </ul>
@@ -49,6 +50,28 @@
                 <label for="symptoms">Symptoms:</label>
                 <input type="text" id="symptoms" name="symptoms" required>
 
+                <label for="time">How Long Have You Been Experiencing These Symptoms?</label>
+                <select id="time" name="time" required>
+                    <option value="1">Less than 24 hours</option>
+                    <option value="2">1-3 days</option>
+                    <option value="3">4-7 days</option>
+                    <option value="4">More than a week</option>
+                    <option value="5">More than a month</option>
+                </select>
+
+                <label for="temperature">Temperature:</label>
+                <select id="temperature" name="temperature" required>
+                    <option value="low">Low (Below 35°C)</option>
+                    <option value="normal">Normal (36-37°C)</option>
+                    <option value="mild">Mild Fever (37.5-38°C)</option>
+                    <option value="moderate">Moderate (38-39°C)</option>
+                    <option value="high">High (39-40°C)</option>
+                    <option value="severe">Severe (Above 40°C)</option>
+                </select>
+
+                <label for="medications">Current Medications:</label>
+                <input type="text" id="medications" name="medications" required>
+
                 <label for="allergies">Allergies:</label>
                 <select id="allergies" name="allergies" required>
                     <option value="none">None</option>
@@ -73,11 +96,22 @@
     <script>
         function handleSubmit(event) {
             event.preventDefault();
+
             const age = document.getElementById('age').value;
-            const allergies = document.getElementById('allergies').value;
+            const gender = document.getElementById('gender').value;
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
             const symptoms = document.getElementById('symptoms').value;
-            console.log(`Age: ${age}, Allergies: ${allergies}, Symptoms: ${symptoms}`);
-            window.location.href = `result.html?symptoms=${encodeURIComponent(symptoms)}&age=${age}&allergies=${allergies}`;
+            const time = document.getElementById('time').value;
+            const temperature = document.getElementById('temperature').value;
+            const medications = document.getElementById('medications').value;
+            const allergies = document.getElementById('allergies').value;
+
+            // Construct the URL with query parameters
+            const url = `result.html?symptoms=${encodeURIComponent(symptoms)}&age=${age}&gender=${gender}&height=${height}&weight=${weight}&time=${time}&temperature=${temperature}&medications=${encodeURIComponent(medications)}&allergies=${allergies}`;
+
+            // Redirect to the constructed URL
+            window.location.href = url;
         }
     </script>
 </body>
