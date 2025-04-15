@@ -14,9 +14,10 @@
                 <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
                 <li><a href="#about"><i class="fas fa-info-circle"></i>About Us</a></li>
                 <li><a href="#features"><i class="fas fa-cogs"></i>Features</a></li>
+                <li><a href="#medical-library"><i class="fas fa-book-medical"></i>Medical Library</a></li>
                 <li><a href="#FAQ"><i class="fas fa-question-circle"></i>FAQ</a></li>
                 <li><a href="#contact"><i class="fas fa-envelope"></i>Contact Us</a></li>
-                            </ul>
+            </ul>
         </nav>
         <img src="Green & Blue Modern Connected Medical Healthcare Logo.png" alt="Vitalis Logo" class="logo">
     </header>
@@ -31,6 +32,10 @@
     </section>
     <section id="about" class="about-section fade-in">
        <h2>About Us</h2>
+       <br>
+       <h3>“The good physician treats the disease; the great physician treats the patient who has the disease.”</h3>
+       <h4> - William Osler</h4>
+       <br>
        <p>Vitalis is your health companion that uses accurate and medically approved information to provide personalized diagnoses and prescribe medication that is tailored to your symptoms. Our mission is to provide basic healthcare guidance for when proper treatment isn't available, even for those in underserved or rural areas.</p>
     </section>
    
@@ -89,11 +94,23 @@
         <section id="contact" class="contact-section fade-in">
             <h2>Contact Us</h2>
             <p>For more information, please contact us at <a href="mailto:rishikalagiri11@gmail.com">rishikalagiri11@gmail.com</a>.</p>
+            
         </section>
     </div>
     <footer>
         <p>&copy; 2025 Vitalis - All rights reserved.</p>
     </footer>
     <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                }, function(error) {
+                    console.log('Service Worker registration failed:', error);
+                });
+            });
+        }
+    </script>
 </body>
 </html>
