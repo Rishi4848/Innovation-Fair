@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() { // Contact a doctor
     const conditions = [ {
         name: "the Flu",
         info: "The flu is a common illness that can make you feel tired and achy, with symptoms like fever, chills, and a sore throat. Taking care of yourself and getting a flu shot every year can help you stay healthy.",
-        symptoms: ['fever', 'chills', 'muscle aches', 'headache', 'sore throat'],
+        symptoms: ['fever', 'chills', 'muscle aches', 'sore throat'],
         medications: [
             { name: "Tamiflu (Oseltamivir)", dosage: "Take 75 mg twice daily for 5 days", ageRange: [13, 100], allergies: [], link: "https://www.healthlinkbc.ca/healthwise/oseltamivir-oral" },
             { name: "Relenza (Zanamivir)", dosage: "Inhale 10 mg twice daily for 5 days. Avoid if you have a milk allergy.", ageRange: [7, 100], allergies: ["milk"], link: "https://www.healthlinkbc.ca/healthwise/zanamivir-inhaler-oral-inhalation" },
