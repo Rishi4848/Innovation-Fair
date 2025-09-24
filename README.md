@@ -1,2 +1,2 @@
-# Science-Fair
+# Innovation-Fair
 Vitalis
